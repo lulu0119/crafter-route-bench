@@ -1,0 +1,12 @@
+.env
+.venv
+node_modules
+__pycache__/
+.pytest_cache/
+.cursor/
+reports/*
+!reports/latest.json
+*.egg-info/
+dist/
+third_party/**/.git/
+third_party/BALROG/SECRETS

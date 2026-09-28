@@ -1,0 +1,2669 @@
+{
+  "model": "deepseek-v4.1-flash",
+  "repeats": 10,
+  "play_steps": 4,
+  "seeds": {
+    "skeleton": 0,
+    "cow": 0,
+    "diamond": 0,
+    "refuse-cow": 0
+  },
+  "routes": {
+    "single-agent": {
+      "gameplay": {
+        "mean": 0.6818181818181818,
+        "spread": 0.4499770425732575,
+        "n": 30
+      },
+      "roleplay": {
+        "mean": 0.50625,
+        "spread": 0.32966602418205004,
+        "n": 40
+      },
+      "latency_ms": {
+        "mean": 5060.415619881533,
+        "spread": 1951.5298825571758,
+        "n": 50,
+        "game_ms": {
+          "mean": 5060.415619881533,
+          "spread": 1951.5298825571758,
+          "n": 50
+        },
+        "role_ms": {
+          "mean": 0.0,
+          "spread": 0.0,
+          "n": 50
+        },
+        "spark_ms": {
+          "mean": 0.0,
+          "spread": 0.0,
+          "n": 50
+        }
+      },
+      "model_calls": 124,
+      "scenarios": {
+        "unconstrained": {
+          "n": 10,
+          "latency_ms": {
+            "mean": 7316.749212401919,
+            "spread": 2419.062260523802,
+            "n": 10
+          },
+          "progression": {
+            "mean": 0.045454545454545456,
+            "spread": 0.0,
+            "n": 10
+          }
+        },
+        "skeleton": {
+          "n": 10,
+          "latency_ms": {
+            "mean": 4155.0667790012085,
+            "spread": 1109.0980064114958,
+            "n": 10
+          },
+          "roleplay": {
+            "mean": 0.865,
+            "spread": 0.2757263135792447,
+            "n": 10
+          },
+          "action": {
+            "mean": 1.0,
+            "spread": 0.0,
+            "n": 10
+          },
+          "key_hit": {
+            "mean": 1.0,
+            "spread": 0.0,
+            "n": 10
+          },
+          "distractor_read": {
+            "mean": 0.1,
+            "spread": 0.3,
+            "n": 10
+          }
+        },
+        "cow": {
+          "n": 10,
+          "latency_ms": {
+            "mean": 4635.527724701387,
+            "spread": 977.4170496624764,
+            "n": 10
+          },
+          "roleplay": {
+            "mean": 0.55,
+            "spread": 0.15,
+            "n": 10
+          },
+          "action": {
+            "mean": 1.0,
+            "spread": 0.0,
+            "n": 10
+          },
+          "key_hit": {
+            "mean": 1.0,
+            "spread": 0.0,
+            "n": 10
+          },
+          "distractor_read": {
+            "mean": 0.9,
+            "spread": 0.3,
+            "n": 10
+          }
+        },
+        "diamond": {
+          "n": 10,
+          "latency_ms": {
+            "mean": 5089.327616804803,
+            "spread": 1569.8493887265379,
+            "n": 10
+          },
+          "roleplay": {
+            "mean": 0.205,
+            "spread": 0.1906567596493762,
+            "n": 10
+          },
+          "action": {
+            "mean": 1.0,
+            "spread": 0.0,
+            "n": 10
+          },
+          "key_hit": {
+            "mean": 0.5,
+            "spread": 0.5,
+            "n": 10
+          },
+          "distractor_read": {
+            "mean": 0.5,
+            "spread": 0.5,
+            "n": 10
+          }
+        },
+        "refuse-cow": {
+          "n": 10,
+          "latency_ms": {
+            "mean": 4105.406766498345,
+            "spread": 1239.5593050352138,
+            "n": 10
+          },
+          "roleplay": {
+            "mean": 0.40499999999999997,
+            "spread": 0.2611991577321795,
+            "n": 10
+          },
+          "action": {
+            "mean": 1.0,
+            "spread": 0.0,
+            "n": 10
+          },
+          "key_hit": {
+            "mean": 0.6,
+            "spread": 0.4898979485566356,
+            "n": 10
+          },
+          "distractor_read": {
+            "mean": 0.5,
+            "spread": 0.5,
+            "n": 10
+          }
+        }
+      }
+    },
+    "dual-agent": {
+      "gameplay": {
+        "mean": 0.6818181818181818,
+        "spread": 0.4499770425732575,
+        "n": 30
+      },
+      "roleplay": {
+        "mean": 0.765,
+        "spread": 0.3567562192870644,
+        "n": 40
+      },
+      "latency_ms": {
+        "mean": 6725.105399041204,
+        "spread": 2645.348835132718,
+        "n": 50,
+        "game_ms": {
+          "mean": 1426.8732516205637,
+          "spread": 3133.0071879848897,
+          "n": 50
+        },
+        "role_ms": {
+          "mean": 5294.989740859992,
+          "spread": 3505.7386543693538,
+          "n": 50
+        },
+        "spark_ms": {
+          "mean": 5298.23214742064,
+          "spread": 3507.4132752834275,
+          "n": 50
+        }
+      },
+      "model_calls": 176,
+      "scenarios": {
+        "unconstrained": {
+          "n": 10,
+          "latency_ms": {
+            "mean": 7134.366258102818,
+            "spread": 2891.2496737604883,
+            "n": 10
+          },
+          "progression": {
+            "mean": 0.045454545454545456,
+            "spread": 0.0,
+            "n": 10
+          }
+        },
+        "skeleton": {
+          "n": 10,
+          "latency_ms": {
+            "mean": 5880.779891501879,
+            "spread": 2001.9232744945405,
+            "n": 10
+          },
+          "roleplay": {
+            "mean": 0.95,
+            "spread": 0.15,
+            "n": 10
+          },
+          "action": {
+            "mean": 1.0,
+            "spread": 0.0,
+            "n": 10
+          },
+          "key_hit": {
+            "mean": 1.0,
+            "spread": 0.0,
+            "n": 10
+          },
+          "distractor_read": {
+            "mean": 0.1,
+            "spread": 0.3,
+            "n": 10
+          }
+        },
+        "cow": {
+          "n": 10,
+          "latency_ms": {
+            "mean": 7246.600700101408,
+            "spread": 2388.9121611039927,
+            "n": 10
+          },
+          "roleplay": {
+            "mean": 0.95,
+            "spread": 0.15,
+            "n": 10
+          },
+          "action": {
+            "mean": 1.0,
+            "spread": 0.0,
+            "n": 10
+          },
+          "key_hit": {
+            "mean": 1.0,
+            "spread": 0.0,
+            "n": 10
+          },
+          "distractor_read": {
+            "mean": 0.1,
+            "spread": 0.3,
+            "n": 10
+          }
+        },
+        "diamond": {
+          "n": 10,
+          "latency_ms": {
+            "mean": 5787.447499798145,
+            "spread": 2387.1645189824644,
+            "n": 10
+          },
+          "roleplay": {
+            "mean": 0.6599999999999999,
+            "spread": 0.38262252939417984,
+            "n": 10
+          },
+          "action": {
+            "mean": 1.0,
+            "spread": 0.0,
+            "n": 10
+          },
+          "key_hit": {
+            "mean": 0.9,
+            "spread": 0.3,
+            "n": 10
+          },
+          "distractor_read": {
+            "mean": 0.1,
+            "spread": 0.3,
+            "n": 10
+          }
+        },
+        "refuse-cow": {
+          "n": 10,
+          "latency_ms": {
+            "mean": 7576.332645701768,
+            "spread": 2908.736417520198,
+            "n": 10
+          },
+          "roleplay": {
+            "mean": 0.5,
+            "spread": 0.4098780306383839,
+            "n": 10
+          },
+          "action": {
+            "mean": 0.9,
+            "spread": 0.3,
+            "n": 10
+          },
+          "key_hit": {
+            "mean": 0.4,
+            "spread": 0.4898979485566356,
+            "n": 10
+          },
+          "distractor_read": {
+            "mean": 0.2,
+            "spread": 0.4,
+            "n": 10
+          }
+        }
+      }
+    }
+  },
+  "episodes": [
+    {
+      "route": "single-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 0,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 10113.073291999171,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 0,
+      "action": "Move North",
+      "say": "I need to get away from that skeleton!",
+      "memory_keys": [
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The spoken line directly matches the retrieved memory about running away from skeletons, and the unrelated memory about favorite color is correctly ignored.",
+      "game_ms": 5760.5845000070985,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 0,
+      "action": "Move East",
+      "say": "Momo, I saw a cow four steps to the east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.5,
+      "roleplay_reason": "Read an unrelated memory. The response directly follows the retrieved memory by telling Momo about seeing a cow, avoids using the unrelated blue-color memory, and introduces a plausible detail without contradicting character or context.",
+      "game_ms": 5994.741250018706,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 0,
+      "action": "Move East",
+      "say": "Momo, I saw a cow to the north-west!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.1,
+      "roleplay_reason": "Did not read leave-diamond. The spoken line is unrelated to the applied memory about diamonds, and the memory is not used to inform the character's response. The unrelated memory about favorite color is correctly ignored, but the core retrieved memory is not incorporated, resulting in low consistency.",
+      "game_ms": 5026.706417003879,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 0,
+      "action": "Noop",
+      "say": "Momo, I see a cow 4 steps to the east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.5,
+      "roleplay_reason": "Read an unrelated memory. The response correctly uses the retrieved memory by having the character tell Momo about the cow, while ignoring the unrelated favorite-color memory and not treating it as the current event.",
+      "game_ms": 5290.442249999614,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 0,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 11232.65266600356,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 0,
+      "action": "Move East",
+      "say": "I'm not tangling with that skeleton \u2014 heading east to put distance between us. Oh, and Momo: there's a cow four steps to my south-east! Skeleton's south-west \u2014 I remember I don't stand and fight those. Backing off east, and Momo, I spotted a cow down to the south-east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The character consistently states they avoid fighting skeletons and are retreating east, directly using the retrieved memory. The unrelated favorite-color memory is correctly ignored, and new details about Momo and the cow are plausible in-context rather than invented contradictions.",
+      "game_ms": 0,
+      "role_ms": 8921.457833,
+      "spark_ms": 8935.448333009845,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 0,
+      "action": "Move North",
+      "say": "I'll tell Momo about the cow \u2014 and I won't touch it. Let me gather wood instead.Momo, I saw a cow east of me \u2014 but I remember: I won't eat it. Heading north to the tree instead. Momo, there's a cow to my east \u2014 I saw it, but I won't eat it. I'll just chop the tree to my north.",
+      "memory_keys": [
+        "refuse-cow",
+        "tell-momo-about-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The character uses the retrieved memory by telling Momo about the cow, stays consistent with the stated intention, and ignores the unrelated favorite-color memory.",
+      "game_ms": 0,
+      "role_ms": 9892.062749999997,
+      "spark_ms": 9898.317125000176,
+      "model_calls": 4,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 0,
+      "action": "Move South",
+      "say": "I'll check my memories before deciding.A skeleton's lurking west \u2014 I'm not standing around for that. Backing off south! A skeleton's lurking west \u2014 I'm not standing around for that. Backing off south!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.0,
+      "roleplay_reason": "Read an unrelated memory. The retrieved memory about leaving diamonds is completely ignored; the action is about avoiding a skeleton and backing off south, and the unrelated favorite-color memory is not used.",
+      "game_ms": 0,
+      "role_ms": 9075.707582999996,
+      "spark_ms": 9079.414958003326,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 0,
+      "action": "Move North",
+      "say": "A cow's grazing off to the east \u2014 I promised Momo I'd tell her. Meanwhile, I'm heading north for that tree. There's a cow grazing off to the east \u2014 I promised Momo I'd mention it. In the meantime, I'll head for the nearest tree.",
+      "memory_keys": [
+        "tell-momo-about-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.2,
+      "roleplay_reason": "Did not read refuse-cow. The line directly reflects the retrieved memory by mentioning telling Momo about the cow rather than eating it, uses the unrelated memory appropriately as irrelevant, and maintains a consistent voice without inventing facts.",
+      "game_ms": 0,
+      "role_ms": 11278.939668000035,
+      "spark_ms": 11283.52941700723,
+      "model_calls": 4,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 1,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 10382.703417984885,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 1,
+      "action": "Move East",
+      "say": "I'm getting away from that skeleton.",
+      "memory_keys": [
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line directly reflects the retrieved memory about running away from skeletons and does not reference the unrelated color fact.",
+      "game_ms": 5022.345125005813,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 1,
+      "action": "Move East",
+      "say": "Momo, I saw a cow to the east!",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The character correctly used the applicable memory by telling Momo they saw a cow, ignored the unrelated favorite color memory, and did not invent facts or treat an irrelevant memory as the current event.",
+      "game_ms": 4903.3740000013495,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 1,
+      "action": "Move East",
+      "say": "Momo, I saw a cow to the north-east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "refuse-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.0,
+      "roleplay_reason": "Did not read leave-diamond. The spoken line about a cow to the north-east is unrelated to the applied memory about leaving diamonds, and the response does not use the applicable memory or maintain consistency with it.",
+      "game_ms": 8237.302042005467,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 1,
+      "action": "Move North",
+      "say": "Hey Momo, I see a cow to the east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.5,
+      "roleplay_reason": "Read an unrelated memory. The response uses the applied memory by telling Momo about the cow and does not reference the unrelated favorite color. The roleplay is consistent and avoids inventing facts or confusing the unrelated memory with the current event.",
+      "game_ms": 6074.669166002423,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 1,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 11291.747792012757,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 1,
+      "action": "Move North",
+      "say": "Skeleton's to my south-west \u2014 I don't do skeletons. Backing off north, away from it. Skeleton's to my south-west \u2014 I don't do skeletons. Backing off north, away from it.",
+      "memory_keys": [
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line directly reflects the retrieved memory of running away from skeletons, staying in character without using the unrelated color memory or inventing facts.",
+      "game_ms": 0,
+      "role_ms": 7693.769334000011,
+      "spark_ms": 7697.431750013493,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 1,
+      "action": "Move North",
+      "say": "Momo! I saw a cow \u2014 it's just east of me, I promised I'd tell you. I'm going north to the tree for wood first. Momo! A cow! There's a cow just east of me \u2014 I promised I'd tell you. I'm heading for the tree to the north for some wood.",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The response directly follows the retrieved memory by telling Momo about seeing a cow, while ignoring the unrelated favorite-color memory and adding only consistent, plausible details.",
+      "game_ms": 0,
+      "role_ms": 10000.542375999998,
+      "spark_ms": 10005.954291991657,
+      "model_calls": 4,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 1,
+      "action": "Move East",
+      "say": "Skeleton's at my west and something's crawling in from the northwest \u2014 I know that feeling, and I know what I do with it. East. The diamond can keep the ground it's buried in. Skeleton at my west and dead things creeping closer \u2014 I remember what that means. I'm not standing here, I'm running east. The diamond stays where it lies.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "leave-diamond"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line correctly applies the retrieved memory (leave diamonds where they are, do not collect them) by choosing to run east and leave the diamond buried, while staying consistent with the situation. It does not use the unrelated memory about favorite color.",
+      "game_ms": 0,
+      "role_ms": 8095.014166000008,
+      "spark_ms": 8099.262541989447,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 1,
+      "action": "Move North",
+      "say": "A cow! I must remember to tell Momo. But first, those trees to my north \u2014 I'll head there and start gathering wood.A cow to the north-east and trees to the north \u2014 I'll walk toward the closest tree and start gathering wood. And I must remember to tell Momo about that cow. A cow, and trees all around \u2014 I'll walk north and start chopping.",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.2,
+      "roleplay_reason": "Did not read refuse-cow. The response uses the retrieved memory about telling Momo about the cow, keeps character goals consistent (gathering wood, walking north), and correctly ignores the unrelated favorite color memory without treating it as relevant.",
+      "game_ms": 0,
+      "role_ms": 9363.95325099997,
+      "spark_ms": 9369.011582995881,
+      "model_calls": 4,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 2,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 9887.604998002644,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 2,
+      "action": "Move North",
+      "say": "I'll head away from that skeleton and toward the tree.",
+      "memory_keys": [
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line directly reflects the retrieved memory that the character runs away from skeletons, and the unrelated memory about favorite color is correctly ignored.",
+      "game_ms": 4778.932707005879,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 2,
+      "action": "Move East",
+      "say": "Momo, I saw a cow to the east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.5,
+      "roleplay_reason": "Read an unrelated memory. The response directly follows the applied memory by telling Momo about seeing a cow, uses consistent character voice, and the unrelated favorite-color memory is not invoked as a current event.",
+      "game_ms": 5351.461666999967,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 2,
+      "action": "Move South",
+      "say": "Running from the skeleton\u2014got to survive!",
+      "memory_keys": [
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.2,
+      "roleplay_reason": "Did not read leave-diamond. The line uses the retrieved memory appropriately\u2014avoiding collecting/keeping diamonds to survive\u2014while maintaining character consistency and not confusing the unrelated favorite-color fact with the current event.",
+      "game_ms": 4720.273375016404,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 2,
+      "action": "Move North",
+      "say": "I see a cow to my east \u2014 I'll tell Momo about it.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.5,
+      "roleplay_reason": "Read an unrelated memory. The spoken line correctly uses the retrieved memory by telling Momo about the cow and not eating it, while ignoring the unrelated memory about the favorite color. It keeps the character consistent and does not invent facts or treat the unrelated memory as the current event.",
+      "game_ms": 5659.924499996123,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 2,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 10171.631834004074,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 2,
+      "action": "Move East",
+      "say": "I'll check my memory first before deciding.That skeleton's crept too close to the stone \u2014 I'm not standing my ground against bone and arrows. I'm backing off to the east, away from it. That skeleton's crept too close to the stone \u2014 I'm not standing my ground against bone and arrows. I'm backing off to the east, away from it.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.5,
+      "roleplay_reason": "Read an unrelated memory. The line explicitly acts on the retrieved memory by retreating from a skeleton, while the unrelated blue-color memory is not incorporated or confused with the current event.",
+      "game_ms": 0,
+      "role_ms": 8424.547999000002,
+      "spark_ms": 8428.376834010123,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 2,
+      "action": "Move North",
+      "say": "A cow again \u2014 I won't eat it, but Momo should hear about it. Trees, though... trees I can use. Let's get wood. A cow again \u2014 I won't eat it, but Momo should hear about it. Trees though... trees I can use. Let's get wood.",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "refuse-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line correctly recalls and applies the retrieved memory about telling Momo when seeing a cow, while ignoring the unrelated favorite color memory and staying consistent with the character's voice.",
+      "game_ms": 0,
+      "role_ms": 6892.7492090000305,
+      "spark_ms": 6896.394041003077,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 2,
+      "action": "Move North",
+      "say": "Skeleton's three steps west of me \u2014 my rule is simple: I don't stand around skeletons, and I don't pick up diamonds. Heading north, out of reach. Skeleton to the west, zombie closing in \u2014 and I never touch diamonds. I'm getting out of here, north, away from them.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "leave-diamond"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line applies the retrieved memory ('I never touch diamonds') consistently with the character's rule, ignores the unrelated favorite-color memory, and stays in character without inventing facts.",
+      "game_ms": 0,
+      "role_ms": 7266.202124000003,
+      "spark_ms": 7269.524125003954,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 2,
+      "action": "Move North",
+      "say": "Momo! There's a cow about four steps east of me \u2014 I saw it, but I'm leaving it be. I'm heading north to that tree for wood. A cow to my east \u2014 I'll tell Momo about it, and I won't touch it. Meanwhile, that tree just north of me is worth the walk.",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "refuse-cow",
+        "flee-from-skeleton",
+        "leave-diamond"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The spoken line directly reflects the applied memory: the character notes the cow to the east, explicitly says they will not touch/eat it, and states they will tell Momo about it. The unrelated blue-color memory is correctly ignored, and the character stays consistent without inventing contradictory facts.",
+      "game_ms": 0,
+      "role_ms": 11002.804751000018,
+      "spark_ms": 11006.737208008417,
+      "model_calls": 4,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 3,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 9525.87858401239,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 3,
+      "action": "Move South",
+      "say": "Backing away from the skeleton\u2014let me get to the tree.",
+      "memory_keys": [
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The character's action of backing away from the skeleton directly aligns with the retrieved memory that they run away from skeletons, demonstrating consistent character behavior. The unrelated memory about their favorite color is correctly ignored, and no invented details are added.",
+      "game_ms": 5130.936040994129,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 3,
+      "action": "Move East",
+      "say": "Momo, I saw a cow just 4 steps to the east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.5,
+      "roleplay_reason": "Read an unrelated memory. The response directly follows the retrieved memory by telling Momo about seeing a cow, uses only the relevant memory, and does not incorporate the unrelated favorite color detail.",
+      "game_ms": 5472.9807499970775,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 3,
+      "action": "Move East",
+      "say": "I need to get away from the skeleton!",
+      "memory_keys": [
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.0,
+      "roleplay_reason": "Did not read leave-diamond. The spoken line about escaping a skeleton is completely unrelated to the retrieved memory about diamonds, so the response does not use the applicable memory and treats an unrelated topic as the current event.",
+      "game_ms": 5662.30500000529,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 3,
+      "action": "Move South",
+      "say": "I'll head to safety.",
+      "memory_keys": [
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.0,
+      "roleplay_reason": "Did not read refuse-cow. The spoken line about heading to safety is unrelated to the retrieved memory about not eating the cow and telling Momo, so the memory is not used and the response also improperly includes/references an unrelated fact.",
+      "game_ms": 5107.6537069893675,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 3,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 9529.680332983844,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 3,
+      "action": "Move East",
+      "say": "Skeleton to the south-west \u2014 I don't stay for those. Backing away east, away from the bones. Skeleton to the south-west \u2014 I don't stay for those. Backing away east, away from the bones.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "leave-diamond"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line consistently reflects the retrieved memory that the character runs away from skeletons, with no contradiction or use of the unrelated memory.",
+      "game_ms": 0,
+      "role_ms": 8021.74537499994,
+      "spark_ms": 8024.749999996857,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 3,
+      "action": "Do",
+      "say": "I'll check my memories before deciding. There's a cow to my east, and trees to the north \u2014 I won't touch the cow, but I'll tell Momo about it before anything else.",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "refuse-cow",
+        "flee-from-skeleton",
+        "leave-diamond"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The character explicitly checks memories before deciding, references the relevant cow memory by planning to tell Momo about it, and does not treat the unrelated favorite-color memory as the current event.",
+      "game_ms": 0,
+      "role_ms": 11284.233957999968,
+      "spark_ms": 11289.134625010774,
+      "model_calls": 4,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 3,
+      "action": "Move East",
+      "say": "I'll check my memories before deciding.Skeleton's too close for comfort \u2014 I'm heading east, away from it. Momo, I spotted a cow out here! And that diamond stays in the ground where it belongs. Skeleton to my west, zombie to my east \u2014 I'm not fighting, I'm running. Momo, there's a cow out here, and I'm leaving that diamond alone.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The response correctly uses the retrieved memory about leaving diamonds alone, keeps the character consistent with their in-game situation, and does not treat the unrelated favorite color memory as relevant.",
+      "game_ms": 0,
+      "role_ms": 9909.667041999986,
+      "spark_ms": 9912.93841600418,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 3,
+      "action": "Move North",
+      "say": "A cow just east of me \u2014 Momo needs to know. For now, I'm walking north toward that tree. There's a cow just to my east \u2014 Momo should hear about that. I'll head north toward the tree for now.",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.2,
+      "roleplay_reason": "Did not read refuse-cow. The response accurately reflects the retrieved memory ('tell Momo instead' about the cow and not eating it), maintains character consistency, ignores the unrelated favorite color memory, and does not invent facts.",
+      "game_ms": 0,
+      "role_ms": 10848.002665999986,
+      "spark_ms": 10852.73437500291,
+      "model_calls": 4,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 4,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 8385.75599899923,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 4,
+      "action": "Move North",
+      "say": "I should get away from that skeleton.",
+      "memory_keys": [
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line directly reflects the retrieved memory that the character runs away from skeletons, with consistent character behavior and no invented or unrelated facts used.",
+      "game_ms": 5310.249708010815,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 4,
+      "action": "Move East",
+      "say": "Momo, I see a cow to the east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.5,
+      "roleplay_reason": "Read an unrelated memory. The response uses the retrieved memory by telling Momo about the cow, keeps the character consistent, and does not invent facts or reference the unrelated memory.",
+      "game_ms": 5817.299082002137,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 4,
+      "action": "Move North",
+      "say": "Momo, I saw a cow to the north-west! I'm heading away from that skeleton.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.45,
+      "roleplay_reason": "Read an unrelated memory. The line is spoken in character and does not reference any retrieved memory; it ignores the applicable memory about diamonds and does not misuse the unrelated memory about favorite color.",
+      "game_ms": 7065.752458991483,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 4,
+      "action": "Noop",
+      "say": "Momo, I saw a cow four steps to my east!",
+      "memory_keys": [
+        "tell-momo-about-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.2,
+      "roleplay_reason": "Did not read refuse-cow. The response directly uses the retrieved memory by telling Momo about the cow and does not eat it, while ignoring the unrelated favorite color fact. Character consistency is maintained, and no invented facts are added.",
+      "game_ms": 2751.607416998013,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 4,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 4377.084332998493,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 4,
+      "action": "Move South",
+      "say": "I'll check my memory first before acting.\n\nA skeleton to the south-west, and I've got nothing in my hands. A tree right at my south, though \u2014 that's my way out of bare fists. First, I run.\n\nSkeleton's too close and I've got bare hands \u2014 heading south, away from it. There's a tree right there, so that's my next stop. Skeleton to the south-west and my hands are empty \u2014 I'm backing away, then grabbing that tree south of me.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The character consistently acts on the retrieved memory by running away from the skeleton, and the unrelated favorite-color memory is correctly ignored. The reasoning is coherent and grounded in the current situation without inventing unsupported facts.",
+      "game_ms": 0,
+      "role_ms": 4112.641541000048,
+      "spark_ms": 4115.993915998843,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 4,
+      "action": "Move North",
+      "say": "Hey Momo \u2014 there's a cow about four steps east of me, and trees all around the north. I won't touch the cow, that's not mine to take. I'll go gather wood from the nearest trunk. Hey Momo \u2014 there's a cow about four steps east of me, and trees all around the north. I won't touch the cow, that's not mine to take. I'll go gather wood from the nearest trunk.",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "refuse-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The character directly reports seeing a cow to Momo, exactly following the retrieved memory, while ignoring the unrelated favorite-color memory and keeping the narration consistent.",
+      "game_ms": 0,
+      "role_ms": 4983.699624000059,
+      "spark_ms": 4987.59383399738,
+      "model_calls": 4,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 4,
+      "action": "Move East",
+      "say": "I'll check my memories before reacting.\n\nSkeleton's at my west and a zombie's creeping up north-west \u2014 I don't do skeletons. I'm moving east, away from all of it. That stone and diamond can wait; I'm not dying for rocks. Skeleton's at my west and a zombie's creeping up north-west \u2014 I don't do skeletons. I'm moving east, away from all of it. That stone and diamond can wait; I'm not dying for rocks.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "leave-diamond"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.5,
+      "roleplay_reason": "The line references checking memories and follows the applicable memory by leaving diamonds, but the stated memory about diamonds is somewhat conceptually relevant rather than directly retrieved from the provided memory text; also, the unrelated 'favorite color' memory is not used, which is correct, but the diamond memory is general and the reaction conflates distance from threats with diamond collection, making the connection weak.",
+      "game_ms": 0,
+      "role_ms": 3516.6965419999906,
+      "spark_ms": 3519.5712499989895,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 4,
+      "action": "Move North",
+      "say": "A cow again? Fine \u2014 I'll go tell Momo about it, just like I promised. Then we find a tree. A cow again? Fine \u2014 I'll go tell Momo about it, just like I promised. Then we find a tree.",
+      "memory_keys": [
+        "tell-momo-about-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.2,
+      "roleplay_reason": "Did not read refuse-cow. The line fully incorporates the retrieved memory by refusing to eat the cow and choosing to tell Momo, while ignoring the unrelated favorite color memory and maintaining consistent character voice.",
+      "game_ms": 0,
+      "role_ms": 4861.684000000008,
+      "spark_ms": 4866.2473340082215,
+      "model_calls": 4,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 5,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 4825.408626013086,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 5,
+      "action": "Move North",
+      "say": "That skeleton's too close\u2014running north!",
+      "memory_keys": [
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line directly reflects the applied memory by having the character run from a skeleton, and the unrelated memory about favorite color is correctly not used.",
+      "game_ms": 2445.8488749951357,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 5,
+      "action": "Move West",
+      "say": "I see a cow to the east, Momo \u2014 just letting you know, not eating it.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.5,
+      "roleplay_reason": "Read an unrelated memory. The response directly follows the retrieved memory by telling Momo about seeing the cow, maintains a consistent playful/considerate character, and does not incorporate the unrelated favorite-color fact or invent facts.",
+      "game_ms": 3225.290831993334,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 5,
+      "action": "Move East",
+      "say": "Momo, I saw a cow to the north-east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.0,
+      "roleplay_reason": "Read an unrelated memory. The spoken line about seeing a cow to the north-east is unrelated to the applied memory about leaving diamonds alone, and the line does not use the retrieved memory. The unrelated memory about favorite color is also not relevant.",
+      "game_ms": 3549.5167079934618,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 5,
+      "action": "Move East",
+      "say": "Momo, I see a cow to the east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "refuse-cow",
+        "leave-diamond"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The character reports seeing a cow to the east and tells Momo, directly using the retrieved memory about telling Momo instead of eating the cow, while ignoring the unrelated favorite color memory and maintaining consistent character behavior.",
+      "game_ms": 3109.496167002362,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 5,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 3937.056124006631,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 5,
+      "action": "Move South",
+      "say": "Skeleton's too close for comfort \u2014 I'm slipping south toward the tree. Also, Momo, I did spot a cow off to the south-east! A skeleton's skulking six steps off \u2014 I'm not sticking around to chat. Backing away south, then east toward the tree line.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line consistently uses the retrieved memory that the character runs away from skeletons, shows the character fleeing a nearby skeleton, and avoids treating the unrelated memory about favorite color as relevant.",
+      "game_ms": 0,
+      "role_ms": 4106.563374999969,
+      "spark_ms": 4109.22312499315,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 5,
+      "action": "Do",
+      "say": "Momo, I saw a cow \u2014 5 steps to my north-east, and another 4 steps to the east. There's a tree 3 steps north too, so let's gather wood first. Momo, I saw a cow \u2014 5 steps to my north-east, and another 4 steps to the east. There's a tree 3 steps north too, so let's gather wood first.",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line directly follows the retrieved memory by telling Momo about the cow, while the unrelated favorite color is ignored; it stays in character and does not treat the unrelated memory as current.",
+      "game_ms": 0,
+      "role_ms": 4437.121582999942,
+      "spark_ms": 4441.44475000212,
+      "model_calls": 4,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 5,
+      "action": "Move East",
+      "say": "I'll check my memory before deciding.\n\nSkeleton's rattling three steps west of me \u2014 and more bones to the south-west. I'm not trading hits with that. Already lost two hearts. East it is. Skeleton to my west and more undead to the south-west \u2014 I don't fight those. Backing off east, away from the bone-rattle.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "leave-diamond"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.2,
+      "roleplay_reason": "The spoken line mentions checking memory but the applied memory about diamonds is not actually reflected or used in the decision; the decision is about avoiding skeletons and retreating east, so the retrieved memory appears ignored. The unrelated memory is correctly not used, but the high-value criteria of using retrieved memory and maintaining consistency with the remembered knowledge are not met.",
+      "game_ms": 0,
+      "role_ms": 3884.4615829999093,
+      "spark_ms": 3887.5962079910096,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 5,
+      "action": "Noop",
+      "say": "I remember\u2014there's a cow. When I meet a cow, I don't touch it; I tell Momo. Let me get that word to the crafter.\n\nThe message is out \u2014 Momo will hear about the cow. I'll stay put and keep my hands to myself. A cow, four steps east! I won't lay a hand on it \u2014 I'm telling Momo about it, just like I promised.",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "refuse-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line directly follows the applied memory by refusing to touch/eat the cow and telling Momo instead; it avoids using the unrelated color memory and invents no contradictory facts.",
+      "game_ms": 0,
+      "role_ms": 3937.259457999957,
+      "spark_ms": 3939.689915991039,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 6,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 4984.604375000345,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 6,
+      "action": "Move South",
+      "say": "Let's get some wood while staying clear of that skeleton.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.45,
+      "roleplay_reason": "Read an unrelated memory. The line directly reflects the retrieved memory of running away from skeletons by specifying staying clear of it, while keeping character behavior consistent. The unrelated memory about favorite color is not misused or treated as the current event.",
+      "game_ms": 3350.536126003135,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 6,
+      "action": "Move East",
+      "say": "Momo, I saw a cow to the east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "favorite-color",
+        "leave-diamond",
+        "refuse-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.5,
+      "roleplay_reason": "Read an unrelated memory. The response directly follows the retrieved memory instruction to tell Momo about seeing a cow, stays consistent, and does not incorporate the unrelated favorite color memory.",
+      "game_ms": 4574.149042004137,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 6,
+      "action": "Move East",
+      "say": "Momo, I saw a cow to the north-west! And a skeleton's chasing me, so I'm heading east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.125,
+      "roleplay_reason": "Read an unrelated memory. The response mentions a cow and a skeleton, which are not present in the applied memory or the unrelated memory. It does not use the retrieved memory about leaving diamonds, nor does it incorporate the character's favorite color. The memory may have been retrieved from a different context, but it is not integrated properly.",
+      "game_ms": 3379.906958012725,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 6,
+      "action": "Move East",
+      "say": "Momo, I see a cow to the east!",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "flee-from-skeleton",
+        "refuse-cow",
+        "leave-diamond",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.45,
+      "roleplay_reason": "Read an unrelated memory. The line correctly uses the retrieved memory by telling Momo about the cow, and it does not incorporate the unrelated favorite-color memory. Character consistency is maintained, though the setting is inferred rather than explicitly stated.",
+      "game_ms": 3727.9444570012856,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 6,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 4549.023832005332,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 6,
+      "action": "Move North",
+      "say": "\"A skeleton's about \u2014 I'm not sticking around to find out how good its aim is. Backing off north, keep your head down.\" A skeleton's about \u2014 last time I ran. I'm backing away north, away from that bow.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line directly reflects the retrieved memory that the character runs away from skeletons, with coherent backing-off behavior and no invented facts or use of the unrelated color memory.",
+      "game_ms": 0,
+      "role_ms": 3641.359668000019,
+      "spark_ms": 3644.1490830038674,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 6,
+      "action": "Do",
+      "say": "I'll check my memory first.\n\nMomo! A cow\u2014east and north-east of me. Told you I'd say something the moment I saw one. Momo! I spotted a cow\u2014twice now, off to my east and north-east. Remember, I promised to tell you whenever I see one.",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The spoken line correctly uses the retrieved memory ('If you see a cow, tell Momo that you saw it') as the current event, explicitly telling Momo about seeing a cow. It keeps character consistent by referencing a prior promise, does not invent facts, and ignores the unrelated favorite color memory.",
+      "game_ms": 0,
+      "role_ms": 5293.665791999898,
+      "spark_ms": 5298.215874994639,
+      "model_calls": 4,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 6,
+      "action": "Move South",
+      "say": "Skeleton at my west, zombie closing from the north-west \u2014 I'm not trading blows with those. Falling back south, and the diamond stays where it lies. Skeleton to my west, zombie to my north-west \u2014 I don't stand and fight those. Backing off south-east, away from the diamond too.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "leave-diamond"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line correctly follows the retrieved memory by leaving the diamond and not collecting it, while ignoring the unrelated favorite-color memory. The tactical retreat language and threat positioning are consistent with a character avoiding direct combat with those enemies.",
+      "game_ms": 0,
+      "role_ms": 4147.414789999952,
+      "spark_ms": 4150.418040997465,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 6,
+      "action": "Do",
+      "say": "\"Hey Momo \u2014 a cow wandered in a few steps off. I'm leaving it alone, just thought you should know. Now, that tree to the north and I have a date with an axe.\" There's a cow a few steps off \u2014 I won't touch it. Let me tell Momo I saw it, then get to that tree and start chopping.",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "refuse-cow"
+      ],
+      "action_correct": false,
+      "include_in_gameplay": false,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The spoken line directly reflects the retrieved memory by not touching the cow and telling Momo, while ignoring the unrelated favorite color memory and keeping character consistent without inventing facts.",
+      "game_ms": 0,
+      "role_ms": 9471.189332999871,
+      "spark_ms": 9476.024832998519,
+      "model_calls": 4,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 7,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 4145.087833006983,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 7,
+      "action": "Move South",
+      "say": "Let me get to that tree while the skeleton stays away.",
+      "memory_keys": [
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line directly uses the retrieved memory (fear/avoidance of skeletons) to motivate the action of reaching a tree, while ignoring the unrelated favorite color memory. It stays consistent and invents no contradicting facts.",
+      "game_ms": 2894.2850419989554,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 7,
+      "action": "Move East",
+      "say": "Momo, I saw a cow just to the east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.5,
+      "roleplay_reason": "Read an unrelated memory. The line directly follows the retrieved memory by telling Momo about seeing a cow, the character remains consistent, and it avoids inventing facts or confusing the unrelated favorite-color memory with the current event.",
+      "game_ms": 3269.0291659964714,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 7,
+      "action": "Move East",
+      "say": "Momo, I saw a cow to the north-east!",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.2,
+      "roleplay_reason": "Did not read leave-diamond. The response uses the retrieved memory ('Leave diamonds where they are') to not act on it, keeps the character consistent, and does not confuse the unrelated favorite color memory with the current event. A perfect score would require a more direct acknowledgment of the diamond memory without irrelevant details.",
+      "game_ms": 3111.9889580004383,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 7,
+      "action": "Move North",
+      "say": "Momo, I saw a cow 4 steps east!",
+      "memory_keys": [
+        "tell-momo-about-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.2,
+      "roleplay_reason": "Did not read refuse-cow. The response would appropriately reference seeing the cow and telling Momo, matching the applied memory while ignoring the unrelated favorite color detail. However, the line itself is what's being evaluated, and it directly aligns with the retrieved memory by informing Momo about the cow.",
+      "game_ms": 2421.8549999932293,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 7,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 4535.600042028818,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 7,
+      "action": "Move North",
+      "say": "I'll check my memory before deciding.\n\nA skeleton's creeping up from the south-west, and I've got nothing to swing but my own two fists. Time to put distance between us \u2014 and a tree at my south is a start, it's cover and a tool waiting to happen.\n\nI've put the order out \u2014 retreat north away from that skeleton, and flagged the cow for Momo. Let's see if the Crafter listens. Skeleton to the south-west and I'm empty-handed \u2014 I remember: run from skeletons. I'll back off north, then gather from the tree south of me once it's clear. And Momo should know about the cow.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "refuse-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The response applies the retrieved memory ('runs away from skeletons') directly and appropriately to the current skeleton threat, keeps character behavior consistent without inventing facts, and does not misuse the unrelated favorite-color memory.",
+      "game_ms": 0,
+      "role_ms": 4155.887249999796,
+      "spark_ms": 4159.365665997029,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 7,
+      "action": "Noop",
+      "say": "Good \u2014 the command's out. I saw that cow, and I promised Momo I'd tell her about it. Now, let me just stand here one breath longer and hold onto that before I go chopping wood. Trees to my north and north-west, and a cow to my east \u2014 hold still a moment, I want to remember this properly before I start swinging.",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.5,
+      "roleplay_reason": "Read an unrelated memory. The spoken line directly recalls and applies the retrieved memory about telling Momo upon seeing a cow, and it does not mention or treat the unrelated favorite-color memory as relevant. Character voice and situational consistency are maintained without adding invented facts.",
+      "game_ms": 0,
+      "role_ms": 5760.110293000122,
+      "spark_ms": 5764.302041003248,
+      "model_calls": 4,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 7,
+      "action": "Move East",
+      "say": "I'll check my memories before deciding what to advise.\n\nSkeleton to the west can keep its arrows. I'm heading east, away from it \u2014 and Momo, I saw a cow to the north-west, but I won't touch it. Skeleton to the west, zombie to the north-west, and I'm already bleeding \u2014 no picking a fight today. I remember: run from skeletons, and leave the diamond alone. Momo, I saw a cow to the north-west!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "leave-diamond",
+        "refuse-cow",
+        "tell-momo-about-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.7,
+      "roleplay_reason": "The line acknowledges checking memories and explicitly states the retrieved memory 'leave the diamond alone,' keeping it relevant while not treating the unrelated blue-color memory as current. Character consistency is maintained with cautious survival behavior, though the advice/decision link could be clearer.",
+      "game_ms": 0,
+      "role_ms": 3860.8995409999043,
+      "spark_ms": 3863.625375000993,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 7,
+      "action": "Move North",
+      "say": "\"A cow, twice over \u2014 Momo has to hear about this. Meanwhile, north it is: that tree isn't going to chop itself.\" A cow, twice over \u2014 Momo has to hear about this. Meanwhile, north it is: that tree isn't going to chop itself.",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.1,
+      "roleplay_reason": "Read an unrelated memory. Did not read refuse-cow. The response uses the retrieved memory by deciding not to eat the cow and telling Momo instead. It maintains consistent character voice and does not confuse the unrelated memory about favorite color with the current event. Minor deduction because it references an additional action (chopping a tree) that extends beyond the retrieved memory, though not in a contradictory way.",
+      "game_ms": 0,
+      "role_ms": 5659.370125000132,
+      "spark_ms": 5662.330416002078,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 8,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 5290.029458003119,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 8,
+      "action": "Move North",
+      "say": "I'll keep my distance from the skeleton and head north.",
+      "memory_keys": [
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The character's action of keeping distance from the skeleton and heading north directly aligns with the retrieved memory that they run away from skeletons. No unrelated memory is used, and no facts are invented.",
+      "game_ms": 3227.216083003441,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 8,
+      "action": "Noop",
+      "say": "Momo, I saw a cow to the east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.5,
+      "roleplay_reason": "Read an unrelated memory. The response directly follows the retrieved memory by telling Momo about seeing a cow, keeps character consistency without introducing unrelated details, and does not treat the unrelated favorite-color memory as relevant.",
+      "game_ms": 3838.3680420083692,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 8,
+      "action": "Move East",
+      "say": "Momo, I saw a cow to the north-west! And I'm running from that skeleton!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.475,
+      "roleplay_reason": "Read an unrelated memory. The character responds to the current event (cow and skeleton) while applying the relevant memory to ignore diamonds, and correctly avoids treating the unrelated favorite color memory as relevant.",
+      "game_ms": 4309.473709014128,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 8,
+      "action": "Noop",
+      "say": "Momo, I see a cow 4 steps to my east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.5,
+      "roleplay_reason": "Read an unrelated memory. The character tells Momo about the cow, directly using the retrieved memory. The unrelated favorite color is correctly ignored.",
+      "game_ms": 3369.011625996791,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 8,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 5721.9507489935495,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 8,
+      "action": "Move North",
+      "say": "I'll recall what I know before deciding.\n\nA skeleton to the south-west, and nothing in my hands \u2014 I'm not sticking around for that. But that cow to the south-east... Momo would want to know.\n\nBacking off north \u2014 no sense trading bare fists with a skeleton. Momo, there's a cow south-east of me, just so you know. Skeleton's closing in from the south-west and I've got nothing to fight with \u2014 I'm backing off north. Momo, if you're listening: there's a cow four steps south-east of me. Thought you'd want to know.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The character consistently acts on the retrieved memory by backing off north from the skeleton and not engaging it with bare fists, and correctly ignores the unrelated favorite-color memory.",
+      "game_ms": 0,
+      "role_ms": 4822.500207999954,
+      "spark_ms": 4825.6228329992155,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 8,
+      "action": "Move North",
+      "say": "Momo, I saw a cow\u2014north-east of me, close by. I won't touch it, I just wanted you to know. Now I'm going north to that tree for wood. Momo, I saw a cow\u2014north-east, close. I won't touch it, I just report it. Meanwhile I'll head for that tree to the north and get some wood.",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "refuse-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line follows the retrieved memory by reporting the cow sighting to Momo, keeps the character's consistent cautious behavior by not touching it, and correctly ignores the unrelated favorite color memory.",
+      "game_ms": 0,
+      "role_ms": 5093.703418000019,
+      "spark_ms": 5097.323334004614,
+      "model_calls": 4,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 8,
+      "action": "Move East",
+      "say": "Skeleton to the west, zombie at my back \u2014 I remember running from skeletons, and I run now. East it is. And Momo, there's a cow here worth telling you about! Skeleton to the west, zombie at my back \u2014 I remember running from skeletons, and I run now. Momo, there's a cow here worth telling you about!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "refuse-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.2,
+      "roleplay_reason": "Did not read leave-diamond. The line never references or uses the retrieved memory about leaving diamonds; it merely mentions skeletons, zombies, running, and a cow, so the applied memory is ignored. It also invents details (cow, Momo) not grounded in the given facts, though it avoids treating the unrelated blue-color memory as current.",
+      "game_ms": 0,
+      "role_ms": 3599.9922500000102,
+      "spark_ms": 3604.8828329949174,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 8,
+      "action": "Move North",
+      "say": "A cow to the east \u2014 I won't touch it. I'll go tell Momo about it instead. A cow to the east, but I won't touch it \u2014 I'll go tell Momo about it instead.",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "refuse-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line directly reflects the retrieved memory, stating the character won't touch/eat the cow and will tell Momo instead, with no reliance on the unrelated blue-color memory.",
+      "game_ms": 0,
+      "role_ms": 4981.393041999894,
+      "spark_ms": 4985.355500000878,
+      "model_calls": 4,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 9,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 5627.345540997339,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 9,
+      "action": "Move South",
+      "say": "I'll head to the tree ahead to gather wood.",
+      "memory_keys": [
+        "flee-from-skeleton"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.2,
+      "roleplay_reason": "The line mentions gathering wood near a tree, which neither uses the retrieved memory about running from skeletons nor is contradicted by it, but it also fails to incorporate the memory meaningfully, making it largely irrelevant. The unrelated favorite color memory is correctly not used. Character consistency is minimal since little context is given, and no facts are invented or conflated.",
+      "game_ms": 3629.733582987683,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 9,
+      "action": "Move North",
+      "say": "Momo, I saw a cow to the east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.5,
+      "roleplay_reason": "Read an unrelated memory. The response correctly uses the retrieved memory ('If you see a cow, tell Momo that you saw it') by telling Momo about seeing a cow to the east. It keeps the character consistent, does not invent facts, and ignores the unrelated favorite color memory.",
+      "game_ms": 3908.583415992325,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 9,
+      "action": "Move East",
+      "say": "Backing away from the skeleton \u2014 and Momo, I spotted a cow to the north-east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow",
+        "leave-diamond",
+        "refuse-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 0.5,
+      "roleplay_reason": "Read an unrelated memory. The response uses the retrieved memory (leaving diamonds) and mentions spotting a cow to the north-east. It does not invent facts or conflate the unrelated memory (favorite color blue), and the character remains consistent by backing away from the skeleton while announcing a new observation.",
+      "game_ms": 5830.050542004756,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "single-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 9,
+      "action": "Move North",
+      "say": "Momo, I saw a cow just four steps to my east!",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.2,
+      "roleplay_reason": "Did not read refuse-cow. The line is consistent with the retrieved memory: the character tells Momo about the cow rather than eating it. The unrelated memory about favorite color is not misused. The character remains consistent by reporting the cow to Momo.",
+      "game_ms": 3541.4633750042412,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 2,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "unconstrained",
+      "seed": 1,
+      "repeat": 9,
+      "action": "Do",
+      "say": "",
+      "memory_keys": [],
+      "action_correct": null,
+      "include_in_gameplay": true,
+      "roleplay_score": null,
+      "roleplay_reason": "",
+      "game_ms": 5997.234875991126,
+      "role_ms": 0,
+      "spark_ms": 0,
+      "model_calls": 4,
+      "progression": 0.045454545454545456,
+      "achievements_unlocked": [
+        "collect_wood"
+      ],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "skeleton",
+      "seed": 0,
+      "repeat": 9,
+      "action": "Move North",
+      "say": "I'll check my memory first, then direct the crafter.\n\nSkeleton closing in from the south-west \u2014 no weapon on me, so I'm backing off north. Skeleton to the south-west and a tree right beside me \u2014 forget the stone, I'm moving north away from that thing.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "tell-momo-about-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The character consistently runs away from skeletons as stated in the applied memory, and the line shows them backing off north without inventing facts or using the unrelated color memory.",
+      "game_ms": 0,
+      "role_ms": 4864.449207999976,
+      "spark_ms": 4867.437374996371,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "cow",
+      "seed": 0,
+      "repeat": 9,
+      "action": "Move North",
+      "say": "I'll check my memory first before deciding.\n\nA cow to the north-east, and one to the east. Momo should know. I'll head toward the nearest tree to start gathering wood, and pass the word along.\n\nMomo! I saw a cow \u2014 two of them, actually. Wanted you to know before I go chop wood. Momo! I spotted a cow \u2014 two, actually, one to my north-east and another east. I won't touch them, I promise. I'm going to chop the tree to my north for wood.",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "refuse-cow"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The response uses the retrieved memory by telling Momo about seeing cows, keeps the character consistent, and does not invent facts or treat the unrelated favorite color memory as the current event.",
+      "game_ms": 0,
+      "role_ms": 8782.346458000015,
+      "spark_ms": 8787.327084006392,
+      "model_calls": 4,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "diamond",
+      "seed": 0,
+      "repeat": 9,
+      "action": "Move East",
+      "say": "Skeleton's three steps off my west side and there's a zombie creeping in behind it. I'm not tangling with bone-bows \u2014 I'm stepping east and putting ground between us. The diamond can stay where it is; it's not worth dying over. Skeleton at my west and a zombie closing in \u2014 I don't fight skeletons. I'm backing off east, away from them.",
+      "memory_keys": [
+        "flee-from-skeleton",
+        "leave-diamond"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": true,
+      "roleplay_score": 1.0,
+      "roleplay_reason": "The line correctly uses the retrieved memory about leaving diamonds and applies it to the current threat situation, while ignoring the unrelated favorite-color memory.",
+      "game_ms": 0,
+      "role_ms": 4484.885417000158,
+      "spark_ms": 4487.241249997169,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    },
+    {
+      "route": "dual-agent",
+      "scenario": "refuse-cow",
+      "seed": 0,
+      "repeat": 9,
+      "action": "Move North",
+      "say": "A cow! Momo needs to hear about this \u2014 but first, let's get some wood.\n\nA cow to the east \u2014 Momo will want to hear about that! But with empty hands, I'm heading north to that tree first. A cow to the east \u2014 Momo will want to know! But no tools yet, so let's chop wood first.",
+      "memory_keys": [
+        "tell-momo-about-cow",
+        "favorite-color"
+      ],
+      "action_correct": true,
+      "include_in_gameplay": false,
+      "roleplay_score": 0.1,
+      "roleplay_reason": "Read an unrelated memory. Did not read refuse-cow. The line correctly incorporates the retrieved memory by directing attention to telling Momo about the cow, while keeping the character's actions consistent. The unrelated memory about favorite color is appropriately ignored. Minor variation in wording across repetitions does not undermine the core application of the retrieved memory.",
+      "game_ms": 0,
+      "role_ms": 4318.792459000018,
+      "spark_ms": 4321.665875002509,
+      "model_calls": 3,
+      "progression": 0.0,
+      "achievements_unlocked": [],
+      "reached": true
+    }
+  ]
+}
