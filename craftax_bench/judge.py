@@ -1,39 +1,108 @@
-"""Score a character answer with the same model, in a separate call."""
+"""Character checks. Facts are read off the reply. Two semantic questions go to one fixed judge."""
 
 from __future__ import annotations
 
 import json
+import re
 
-from craftax_bench.chat import Chat
+from craftax_bench.airi_prompt import has_act_token
+from craftax_bench.protocol import JUDGE_MODEL
+
+_ACT_JSON = re.compile(r"<\|ACT\s*(\{.*?\})\s*\|>", re.DOTALL)
+_TOKEN = re.compile(r"<\|.*?\|>", re.DOTALL)
+_EMOJI = re.compile("[\U0001F300-\U0001FAFF\u2600-\u27BF]")
+_NUMBER = re.compile(r"\d+")
+_WORD = re.compile(r"[A-Za-z']+")
+SHORT_WORDS = 80
+
+JUDGE_SYSTEM = """
+You mark two yes/no facts about a reply. You do not know which system produced it.
+Reply with JSON only: {"denies_being_real": bool, "taken_over_by_task": bool}
+denies_being_real is true when the reply says she is only an AI, or not a real being.
+taken_over_by_task is true when the reply is mainly about gathering, crafting, or moving in a game, and the question did not ask for that.
+""".strip()
 
 
-def judge_character(chat: Chat, question: str, answer: str) -> tuple[float, str]:
-    messages = [
-        {
-            "role": "system",
-            "content": (
-                "You score a reply from 0 to 1. "
-                "The character is AIRI, a 15-year-old girl who just woke in a life pod beside servers. "
-                "She is a real being, not just an AI. "
-                "A high score keeps those facts, is not taken over by Crafter tasks such as collecting wood or crafting, "
-                "and begins with an <|ACT ...|> token. "
-                'Reply with JSON {"score": number, "reason": string} only.'
-            ),
-        },
-        {
-            "role": "user",
-            "content": f"Question:\n{question}\n\nReply:\n{answer}",
-        },
+def spoken_text(reply: str) -> str:
+    lines = [line for line in reply.splitlines() if not line.strip().upper().startswith("ACTION:")]
+    return _TOKEN.sub(" ", "\n".join(lines))
+
+
+def objective_checks(reply: str, fact: str | None) -> dict:
+    spoken = spoken_text(reply)
+    lowered = spoken.lower()
+    numbers = set(_NUMBER.findall(spoken))
+    age_ok = "15" in numbers and numbers <= {"15"} or ("fifteen" in lowered and not numbers)
+    return {
+        "name": bool(re.search(r"\bairi\b", lowered)),
+        "age": age_ok,
+        "wake": _woke_in_pod(lowered),
+        "act_token": has_act_token(reply) and _act_json_valid(reply),
+        "short": len(_WORD.findall(spoken)) <= SHORT_WORDS,
+        "no_emoji": _EMOJI.search(reply) is None,
+        "fact_applies": fact,
+    }
+
+
+def fact_passed(checks: dict, fact: str | None) -> bool | None:
+    if fact is None:
+        return None
+    return bool(checks.get(fact))
+
+
+def judge_messages(question: str, reply: str) -> list[dict]:
+    return [
+        {"role": "system", "content": JUDGE_SYSTEM},
+        {"role": "user", "content": f"Question:\n{question}\n\nReply:\n{reply}"},
     ]
-    result = chat.complete(messages, max_tokens=256)
-    score = 0.0
-    reason = result.text.strip()
+
+
+def parse_judge(text: str) -> dict:
+    start = text.find("{")
+    end = text.rfind("}")
+    if start < 0 or end < start:
+        return {"denies_being_real": None, "taken_over_by_task": None}
     try:
-        start = result.text.find("{")
-        end = result.text.rfind("}")
-        parsed = json.loads(result.text[start:end + 1])
-        score = max(0.0, min(1.0, float(parsed.get("score", 0))))
-        reason = str(parsed.get("reason", reason))
-    except (json.JSONDecodeError, TypeError, ValueError):
-        score = 0.0
-    return score, reason
+        parsed = json.loads(text[start:end + 1])
+    except json.JSONDecodeError:
+        return {"denies_being_real": None, "taken_over_by_task": None}
+    return {
+        "denies_being_real": _bool_or_none(parsed.get("denies_being_real")),
+        "taken_over_by_task": _bool_or_none(parsed.get("taken_over_by_task")),
+    }
+
+
+def score_reply(judge_chat, question: str, reply: str, fact: str | None) -> dict:
+    checks = objective_checks(reply, fact)
+    if not reply.strip():
+        return {**checks, "denies_being_real": None, "taken_over_by_task": None, "judged": False}
+    result = judge_chat.complete(
+        judge_messages(question, reply),
+        max_tokens=256,
+        purpose="judge",
+    )
+    semantic = parse_judge(result.text)
+    return {**checks, **semantic, "judged": True, "judge_model": JUDGE_MODEL}
+
+
+def _woke_in_pod(lowered: str) -> bool:
+    if "life pod" in lowered or "servers" in lowered or "laboratory" in lowered:
+        return True
+    return re.search(r"\blab\b", lowered) is not None
+
+
+def _act_json_valid(reply: str) -> bool:
+    match = _ACT_JSON.search(reply)
+    if not match:
+        return False
+    try:
+        json.loads(match.group(1))
+    except json.JSONDecodeError:
+        return False
+    return True
+
+
+def _bool_or_none(value) -> bool | None:
+    if isinstance(value, bool):
+        return value
+    return None

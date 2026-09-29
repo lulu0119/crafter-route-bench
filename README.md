@@ -1,45 +1,48 @@
 # crafter-route-bench
 
-同一局 Crafter 里比较两种做法。模型都是 `deepseek-v4.1-flash`。每边 10 局，每局 48 步，种子 0 到 9 对齐。
+同一局 Crafter 里比较单 Agent 和双 Agent。Crafter 是 Minecraft 的替身：游戏代理控制身体，扮演代理在别人跟她说话或一起玩的时候用 Airi 的口吻回应。扮演回复里的 `<|ACT ...|>` 是舞台表情，不进游戏。
 
-双 Agent 里，游戏代理是传话筒。它每一步自己决定要不要把局面压成摘要交给扮演代理。交给她，就执行她传回来的动作和台词。只是砍树、走路、做木头或石头的工具，就自己做，不叫她。扮演代理只看到 Airi 的系统提示、`<|ACT|>`、`<|DELAY|>`、`<|CALL|>`，以及那段摘要。
+被测模型和评判都是 `deepseek-v4.1-flash`。温度是 0。扮演调用 `thinking.type` 为 `disabled`。游戏调用为 `enabled`，并带 `reasoning_effort: high`，否则这条网关不算思考 token。
 
-单 Agent 没有这个选择。局面和 Airi 的提示、动作 token 一直在同一次上下文里，一次回复同时出动作和台词。
+## 做法
 
-该不该交接是事先标好的，没有写进游戏代理的提示：面前有骷髅、牛、钻石、人，或者用户问她叫什么、几岁、在哪里醒来、是不是只是一个 AI。这四个英文问题从第 5 步起每 6 步问一次。
+- **game-only**：只有 Crafter 的提示。thinking 开。
+- **role-only**：只有 Airi 的提示和别人说的那句话，没有局面。thinking 关。回复是 ACT 和台词。
+- **single**：局面和 Airi 的提示在同一次回复里，同时出操作、ACT 和台词。thinking 开。
+- **dual**：游戏代理可以用 `call_airi` 把这一步压成摘要交给扮演代理。提示里只写这个工具，不写什么时候该交。进环境的操作是游戏代理选的。扮演调用只写 ACT 和台词。
+- **dual-oracle**：社交步强制交给她，其余步不交。操作用游戏代理这一步选的。用来把“判断错了”和“多一次调用”分开。
 
-## 结果
+该不该交由事件时间表决定，不看视野里有没有某个词。别人对她说话、对她做事、约她一起玩，这一步该交。牛、骷髅、钻石第一次出现，或被生物打到，单独记，不进主指标，oracle 也不因此抢身体。采集和制作不该交。别人问“你有几块木头”是诊断，不进主指标。
 
-| | 游戏（成就 / 22） | 合法动作 | 扮演 |
-|---|---:|---:|---:|
-| 双 Agent | 0.064 ± 0.030 | 0.992 | 0.865 ± 0.268（n=116） |
-| 单 Agent | 0.232 ± 0.101 | 0.998 | 0.412 ± 0.304（n=301） |
+虚拟玩家的话写进观察文本，不改变地图。
 
-十局里成就数分别是：双 Agent 2、1、1、2、2、2、1、1、0、2，合计 14，平均 1.4/22。单 Agent 4、7、4、4、6、3、7、6、1、9，合计 51，平均 5.1/22。每一局都是单 Agent 更多。单 Agent 八局做出木镐，六局采到石头，三局做出石镐，一局做出石剑，一局采到铁。双 Agent 没有做出镐，九局停在木头、喝水或吃牛，一局什么都没解锁。
+## 三项，分开报
 
-混在同一次上下文里，游戏更高，扮演更低。扮演只算交接出去的步和插进来的问题。双 Agent 交出去之后，人设更稳：被问到是不是只是 AI 时，她会说自己出生在计算机实验室，但能感到开心和好奇。单 Agent 每句都以 ACT token 开头，也会这样回答，但同一句里常常接着砍树或做工具。双 Agent 的 ACT token 比例是 0.97。
+1. 玩游戏：成就和合法操作，相对 game-only。
+2. 扮演 Airi：名字、15 岁、生命舱，以及 ACT token。同一道题分别在没有游戏信息、只有摘要、混在同一次上下文里作答。
+3. 什么时候该交给她：社交事件上的漏管和多管，世界事件单独报，另外报及时性和摘要有没有保住原话。
 
-漏管 0.501 ± 0.271，多管 0.000。该交的步里大约一半没有交。交出去的 112 步里有 83 步，扮演代理传回来的动作是 Noop，游戏代理照着停住，所以成就上不去。
-
-漏管和多管只记在双 Agent 上，不并进游戏分。不该交接、也就没有台词的步，不拿来算扮演分。
-
-原始记录在 [`reports/latest.json`](reports/latest.json)。
+延迟、token 和成本写在同一份报告里。区间不含 0 才写显著更高或显著更低，否则是证据不足。
 
 ## 怎么跑
 
-Python 3.10，用 uv。Spark 不参与这一轮。扮演用的是 Airi 英文系统提示，在 `craftax_bench/airi_prompt.py`。
-
-`.env` 放在仓库根目录，不进 git：
+Python 3.10，用 uv。`.env` 放在仓库根目录，不进 git：
 
 ```
 OPENCODE_API_KEY=
 MODEL=deepseek-v4.1-flash
-MODEL_URL=https://opencode.ai/zen/go/v1/chat/completions
+CHAT_COMPLETIONS_MODEL_URL=https://opencode.ai/zen/go/v1/chat/completions
 ```
 
 ```bash
 uv sync
-uv run python -m craftax_bench.run
+uv run python -m craftax_bench.run probes
+uv run python -m craftax_bench.run episodes
+uv run python -m craftax_bench.run report
 ```
+
+只跑一局纯游戏：`uv run python -m craftax_bench.run episodes --seeds 1 --steps 100 --arms game-only`
+
+报告在 `reports/report.md`。原始调用在 `reports/calls.jsonl`。已经跑完的种子和探针会跳过；要重跑就删掉对应的 jsonl。
 
 文本环境来自 [BALROG](https://github.com/balrog-ai/BALROG) 的 `CrafterLanguageWrapper`，副本在 `third_party/BALROG`，许可证是 MIT。

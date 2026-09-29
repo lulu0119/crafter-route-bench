@@ -1,7 +1,7 @@
 [project]
 name = "crafter-route-bench"
 version = "0.1.0"
-description = "Compare a single Crafter agent with an Airi Spark role against gameplay, roleplay, and latency."
+description = "Compare single-agent and dual-agent play on one Crafter episode: gameplay, roleplay, handoff, latency, and cost."
 requires-python = ">=3.10"
 dependencies = [
     "crafter>=1.8.3",

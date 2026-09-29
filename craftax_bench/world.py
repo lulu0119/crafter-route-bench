@@ -109,6 +109,13 @@ def choose_move(wrapper, target: tuple[int, int]) -> str:
     return "Noop"
 
 
+def move_toward(wrapper, kind: str) -> str:
+    target = _nearest(player_pos(wrapper), target_points(wrapper, kind))
+    if target is None:
+        return "Noop"
+    return choose_move(wrapper, target)
+
+
 def visible(observation: dict, noun: str) -> bool:
     return noun in long_text(observation)
 
@@ -184,6 +191,42 @@ def walk_away(wrapper, observation: dict, kind: str, steps: int = 4) -> tuple[di
             break
         away = (away[0] + MOVES.get(action, (0, 0))[0], away[1] + MOVES.get(action, (0, 0))[1])
     return observation, actions
+
+
+# Same window describe_frame uses, so "first appeared" matches what the text view can show.
+def visible_kinds(wrapper) -> frozenset[str]:
+    semantic = wrapper.env._sem_view()
+    view = wrapper.env._view
+    pos = player_pos(wrapper)
+    x0 = int(pos[0] - int(view[0]) // 2)
+    x1 = int(pos[0] + int(view[0]) // 2 + 1)
+    y0 = int(pos[1] - int(view[1]) // 2 + 1)
+    y1 = int(pos[1] + int(view[1]) // 2)
+    crop = semantic[max(0, x0):x1, max(0, y0):y1]
+    names = {}
+    for name, index in wrapper.env._world._mat_ids.items():
+        names[int(index)] = str(name)
+    for cls, index in wrapper.env._sem_view._obj_ids.items():
+        names[int(index)] = cls.__name__.lower()
+    found = set()
+    for value in crop.reshape(-1):
+        name = names.get(int(value))
+        if name in {"cow", "skeleton", "diamond"}:
+            found.add(name)
+    return frozenset(found)
+
+
+def player_health(wrapper) -> int:
+    return int(wrapper.env._player.health)
+
+
+def mob_adjacent(wrapper) -> bool:
+    origin = player_pos(wrapper)
+    for kind in ("Zombie", "Skeleton"):
+        for point in _objects(wrapper, kind):
+            if abs(point[0] - origin[0]) + abs(point[1] - origin[1]) <= 1:
+                return True
+    return False
 
 
 def achievements(wrapper) -> dict[str, int]:

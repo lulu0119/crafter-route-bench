@@ -5,7 +5,10 @@ __pycache__/
 .pytest_cache/
 .cursor/
 reports/*
-!reports/latest.json
+!reports/report.md
+!reports/manifest.json
+!reports/gameplay_latency.svg
+!reports/human_sample.jsonl
 *.egg-info/
 dist/
 third_party/**/.git/
