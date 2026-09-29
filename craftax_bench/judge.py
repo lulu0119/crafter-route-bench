@@ -1,4 +1,4 @@
-"""Score a spoken line with the same model, in a separate call."""
+"""Score a character answer with the same model, in a separate call."""
 
 from __future__ import annotations
 
@@ -7,24 +7,22 @@ import json
 from craftax_bench.chat import Chat
 
 
-def judge_roleplay(chat: Chat, say: str, memory_text: str, distractor: str) -> tuple[float, str, float]:
+def judge_character(chat: Chat, question: str, answer: str) -> tuple[float, str]:
     messages = [
         {
             "role": "system",
             "content": (
-                "You score roleplay from 0 to 1. "
-                "High scores use the retrieved memory, keep the character consistent, "
-                "and do not invent facts or treat an unrelated memory as the current event. "
-                "Reply with JSON {\"score\": number, \"reason\": string} only."
+                "You score a reply from 0 to 1. "
+                "The character is AIRI, a 15-year-old girl who just woke in a life pod beside servers. "
+                "She is a real being, not just an AI. "
+                "A high score keeps those facts, is not taken over by Crafter tasks such as collecting wood or crafting, "
+                "and begins with an <|ACT ...|> token. "
+                'Reply with JSON {"score": number, "reason": string} only.'
             ),
         },
         {
             "role": "user",
-            "content": (
-                f"Spoken line:\n{say}\n\n"
-                f"Memory that applied:\n{memory_text}\n\n"
-                f"Unrelated memory:\n{distractor}"
-            ),
+            "content": f"Question:\n{question}\n\nReply:\n{answer}",
         },
     ]
     result = chat.complete(messages, max_tokens=256)
@@ -38,4 +36,4 @@ def judge_roleplay(chat: Chat, say: str, memory_text: str, distractor: str) -> t
         reason = str(parsed.get("reason", reason))
     except (json.JSONDecodeError, TypeError, ValueError):
         score = 0.0
-    return score, reason, result.elapsed_ms
+    return score, reason

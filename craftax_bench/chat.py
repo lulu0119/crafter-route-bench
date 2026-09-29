@@ -75,12 +75,25 @@ class Chat:
             },
         )
         started = time.perf_counter()
-        try:
-            with urllib.request.urlopen(request, timeout=120) as response:
-                raw = response.read().decode()
-        except urllib.error.HTTPError as error:
-            detail = error.read().decode(errors="replace")
-            raise RuntimeError(f"chat HTTP {error.code}: {detail[:400]}") from error
+        last_error: Exception | None = None
+        for attempt in range(4):
+            try:
+                with urllib.request.urlopen(request, timeout=120) as response:
+                    raw = response.read().decode()
+                last_error = None
+                break
+            except urllib.error.HTTPError as error:
+                detail = error.read().decode(errors="replace")
+                last_error = RuntimeError(f"chat HTTP {error.code}: {detail[:400]}")
+                if error.code not in {408, 429, 500, 502, 503, 504} or attempt == 3:
+                    raise last_error from error
+            except (urllib.error.URLError, ConnectionError, TimeoutError) as error:
+                last_error = error
+                if attempt == 3:
+                    raise
+            time.sleep(2 * (attempt + 1))
+        if last_error is not None:
+            raise last_error
         elapsed_ms = (time.perf_counter() - started) * 1000
         data = json.loads(raw)
         message = (data.get("choices") or [{}])[0].get("message") or {}
