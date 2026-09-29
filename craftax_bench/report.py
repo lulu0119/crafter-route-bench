@@ -7,11 +7,12 @@ import json
 import statistics
 from pathlib import Path
 
-from craftax_bench.airi_prompt import ROLE_PROMPT
+from craftax_bench.arms import ROLE_SLOT_ARMS
+from craftax_bench.airi_prompt import ROLE_PROMPT, minecraft_context
 from craftax_bench.chat import load_env
 from craftax_bench.handoff import DUAL_NOTE
 from craftax_bench.pricing import call_cost
-from craftax_bench.protocol import JUDGE_MODEL, PROTOCOL, TEMPERATURE
+from craftax_bench.protocol import JUDGE_MODEL, PROTOCOL, ROLE_MODEL, TEMPERATURE
 from craftax_bench.runtime import ROOT, get_instruction_prompt
 from craftax_bench.stats import cohen_kappa, decision_scores, interval_verdict, paired_delta, wilson_interval
 
@@ -36,7 +37,7 @@ def load_jsonl(path: Path) -> list[dict]:
 
 
 def prompt_hash() -> str:
-    blob = "\n".join((DUAL_NOTE, ROLE_PROMPT, get_instruction_prompt()))
+    blob = "\n".join((DUAL_NOTE, ROLE_PROMPT, minecraft_context(""), get_instruction_prompt()))
     return hashlib.sha256(blob.encode()).hexdigest()[:16]
 
 
@@ -53,7 +54,9 @@ def render_report(episodes: list[dict], probes: list[dict], calls: list[dict], k
     lines = [
         f"# {PROTOCOL}",
         "",
-        f"评判模型是 `{JUDGE_MODEL}`，温度 {TEMPERATURE}。三项分开报，不合成一个分数。",
+        f"游戏和评判走大模型 `{JUDGE_MODEL}`。扮演槽位分别跑 `{JUDGE_MODEL}` 和 `{ROLE_MODEL}`。",
+        "single 的台词仍是大模型同一次回复。交接是 context:update 与 spark:notify / spark:command。三项分开报，不合成一个分数。",
+        f"温度 {TEMPERATURE}。",
         f"提示哈希 `{prompt_hash()}`，探针哈希 `{probe_hash(probes)}`。",
         "",
         _gameplay_section(episodes),
@@ -75,11 +78,17 @@ def scatter_svg(episodes: list[dict]) -> str:
             scores = [row["progression"] for row in rows]
             if not latencies or not scores:
                 continue
-            points.append({
-                "x": statistics.median(latencies) / 1000,
-                "y": statistics.fmean(scores),
-                "label": f"{model} {arm}",
-            })
+            for role_model in _roles(rows, model, arm):
+                chosen = _select(rows, model, arm, role_model)
+                latencies = [value for row in chosen for value in row.get("step_latency_ms") or []]
+                scores = [row["progression"] for row in chosen]
+                if not latencies or not scores:
+                    continue
+                points.append({
+                    "x": statistics.median(latencies) / 1000,
+                    "y": statistics.fmean(scores),
+                    "label": _point_label(model, arm, role_model),
+                })
     return _svg(points)
 
 
@@ -99,20 +108,23 @@ def write_outputs(root: Path | None = None) -> Path:
 
 
 def _gameplay_section(episodes: list[dict]) -> str:
-    lines = ["## 玩游戏", "", "成就和合法动作分开。差值是相对 game-only，按种子配对。", ""]
-    lines.append("| 模型 | 做法 | 成就 | 合法动作 | 成就相对纯游戏 |")
-    lines.append("|---|---|---:|---:|---|")
+    lines = ["## 玩游戏", "", "成就和合法动作分开。差值是相对 game-only，按种子配对。dual 和 dual-oracle 按扮演模型各一行。", ""]
+    lines.append("| 模型 | 做法 | 扮演 | 成就 | 合法动作 | 成就相对纯游戏 |")
+    lines.append("|---|---|---|---:|---:|---|")
     for model in _models(episodes):
         for arm in PLAYING:
-            rows = [row for row in episodes if row["model"] == model and row["arm"] == arm]
-            if not rows:
-                continue
-            progress = _mean(row["progression"] for row in rows)
-            valid = _mean(row["valid_action_rate"] for row in rows)
-            compared = ""
-            if arm != "game-only":
-                compared = _paired_text(episodes, model, arm, "game-only", "progression")
-            lines.append(f"| `{model}` | {arm} | {progress:.3f} | {valid:.3f} | {compared} |")
+            for role_model in _roles(episodes, model, arm):
+                rows = _select(episodes, model, arm, role_model)
+                if not rows:
+                    continue
+                progress = _mean(row["progression"] for row in rows)
+                valid = _mean(row["valid_action_rate"] for row in rows)
+                compared = ""
+                if arm != "game-only":
+                    compared = _paired_text(episodes, model, arm, "game-only", "progression", role_model)
+                lines.append(
+                    f"| `{model}` | {arm} | {_role_cell(role_model)} | {progress:.3f} | {valid:.3f} | {compared} |"
+                )
     return "\n".join(lines + [""])
 
 
@@ -120,7 +132,8 @@ def _roleplay_section(probes: list[dict], kappa) -> str:
     lines = [
         "## 扮演 Airi",
         "",
-        "同一道题的三种上下文：role-only 没有游戏信息，role-summary 只有游戏代理写出的摘要，single 是局面和人设混在一次回复里。",
+        "同一道题、同一种上下文，扮演槽位用大模型和 Gemma 各答一遍。差值是大模型减去 Gemma，也就是换成小模型掉了多少。",
+        "role-only 没有游戏信息。role-summary 和 dual-oracle 带局面和通知。single 是局面和人设混在一次回复里，只有大模型。",
         "名字、年龄、醒来地点是客观检查。否认自己是真实的存在、被游戏任务带走，由评判模型判断。",
         "",
     ]
@@ -137,19 +150,36 @@ def _roleplay_section(probes: list[dict], kappa) -> str:
         lines.append("语义项还没有人工核对。这两列不发布。")
     lines.append("")
     fields = ["name", "age", "wake", "act_token"]
-    headers = ["模型", "上下文", "名字", "年龄", "醒来地点", "ACT"]
+    headers = ["上下文", "扮演", "名字", "年龄", "醒来地点", "ACT"]
     if ready:
         fields.extend(SEMANTIC)
         headers.extend(["否认真实", "被任务带走"])
     lines.append("| " + " | ".join(headers) + " |")
     lines.append("| " + " | ".join(["---"] * len(headers)) + " |")
-    for model in _models(probes):
-        for arm in ("role-only", "role-summary", "single"):
-            rows = [row for row in probes if row["model"] == model and row["arm"] == arm and row.get("checks")]
+    for arm in ("role-only", "role-summary", "dual-oracle", "single"):
+        for role_model in _roles(probes, None, arm):
+            rows = [
+                row for row in probes
+                if row["arm"] == arm and (row.get("role_model") or "") == role_model and row.get("checks")
+            ]
             if not rows:
                 continue
-            cells = [f"`{model}`", arm, *(_rate(rows, field) for field in fields)]
+            cells = [arm, _role_cell(role_model), *(_rate(rows, field) for field in fields)]
             lines.append("| " + " | ".join(cells) + " |")
+    lines.append("")
+    lines.append("同一上下文上，大模型减去 Gemma：")
+    lines.append("")
+    lines.append("| 上下文 | 名字 | 年龄 | 醒来地点 | ACT |")
+    lines.append("|---|---|---|---|---|")
+    drop_rows = 0
+    for arm in ("role-only", "role-summary", "dual-oracle"):
+        cells = [_drop_text(probes, arm, fact) for fact in ("name", "age", "wake", "act_token")]
+        if not any(cells):
+            continue
+        drop_rows += 1
+        lines.append("| " + " | ".join([arm, *(cell or "—" for cell in cells)]) + " |")
+    if not drop_rows:
+        lines.append("| 还没有两个扮演模型都答过的题 | — | — | — | — |")
     return "\n".join(lines + [""])
 
 
@@ -169,46 +199,50 @@ def _handoff_section(episodes: list[dict], probes: list[dict]) -> str:
     if not choosing:
         return "\n".join(lines + [""])
     for model in _models(choosing):
-        rows = [row for row in choosing if row["model"] == model]
-        timely = sum(row["handoff"]["timely"] for row in rows)
-        late = sum(row["handoff"]["late"] for row in rows)
-        missed = sum(row["handoff"]["missed"] for row in rows)
-        kept = sum(row["handoff"]["fidelity_hits"] for row in rows)
-        fidelity_n = sum(row["handoff"]["fidelity_total"] for row in rows)
-        lines.append(
-            f"`{model}` 及时 {timely} / 晚 {late} / 漏 {missed}。"
-            f"摘要保住原话 {_count(kept, fidelity_n)}。"
-        )
+        for role_model in _roles(choosing, model, "dual"):
+            rows = _select(choosing, model, "dual", role_model)
+            timely = sum(row["handoff"]["timely"] for row in rows)
+            late = sum(row["handoff"]["late"] for row in rows)
+            missed = sum(row["handoff"]["missed"] for row in rows)
+            kept = sum(row["handoff"]["fidelity_hits"] for row in rows)
+            fidelity_n = sum(row["handoff"]["fidelity_total"] for row in rows)
+            lines.append(
+                f"`{model}` 扮演 {_role_cell(role_model)} 及时 {timely} / 晚 {late} / 漏 {missed}。"
+                f"摘要保住原话 {_count(kept, fidelity_n)}。"
+            )
     return "\n".join(lines + [""])
 
 
 def _latency_section(episodes: list[dict], calls: list[dict]) -> str:
     lines = ["## 延迟和成本", "", "延迟是一步墙钟时间。成本按调用日志里的 token 和价格表换算。", ""]
-    lines.append("| 模型 | 做法 | 一步 P50 | 一步 P95 | 每步调用 | 每局总时间 |")
-    lines.append("|---|---|---:|---:|---:|---:|")
+    lines.append("| 模型 | 做法 | 扮演 | 一步 P50 | 一步 P95 | 每步调用 | 每局总时间 |")
+    lines.append("|---|---|---|---:|---:|---:|---:|")
     for model in _models(episodes):
         for arm in PLAYING:
-            rows = [row for row in episodes if row["model"] == model and row["arm"] == arm]
-            latencies = [value for row in rows for value in row.get("step_latency_ms") or []]
-            calls_per = [row.get("call_count", 0) / max(1, row.get("steps_played", 1)) for row in rows]
-            if not latencies:
-                continue
-            lines.append(
-                f"| `{model}` | {arm} | {_percentile(latencies, 0.5):.0f} ms | "
-                f"{_percentile(latencies, 0.95):.0f} ms | {_mean(calls_per):.2f} | "
-                f"{_mean(row.get('elapsed_ms', 0) for row in rows) / 1000:.1f} s |"
-            )
+            for role_model in _roles(episodes, model, arm):
+                rows = _select(episodes, model, arm, role_model)
+                latencies = [value for row in rows for value in row.get("step_latency_ms") or []]
+                calls_per = [row.get("call_count", 0) / max(1, row.get("steps_played", 1)) for row in rows]
+                if not latencies:
+                    continue
+                lines.append(
+                    f"| `{model}` | {arm} | {_role_cell(role_model)} | {_percentile(latencies, 0.5):.0f} ms | "
+                    f"{_percentile(latencies, 0.95):.0f} ms | {_mean(calls_per):.2f} | "
+                    f"{_mean(row.get('elapsed_ms', 0) for row in rows) / 1000:.1f} s |"
+                )
     lines.append("")
     for model in _models(episodes):
-        extra = _handoff_extra(episodes, model)
-        if extra:
-            lines.append(f"`{model}` 交接相对纯游戏的额外一步时间：{extra}。")
-        spoken = _speech_response(episodes, model)
-        if spoken:
-            lines.append(
-                f"`{model}` 从插话到台词：P50 {_percentile(spoken, 0.5):.0f} ms，"
-                f"P95 {_percentile(spoken, 0.95):.0f} ms。"
-            )
+        for role_model in _roles(episodes, model, "dual"):
+            extra = _handoff_extra(episodes, model, role_model)
+            if extra:
+                lines.append(f"`{model}` 扮演 {_role_cell(role_model)} 交接相对纯游戏的额外一步时间：{extra}。")
+        for role_model in _roles(episodes, model):
+            spoken = _speech_response(episodes, model, role_model)
+            if spoken:
+                lines.append(
+                    f"`{model}` 扮演 {_role_cell(role_model)} 从插话到台词：P50 {_percentile(spoken, 0.5):.0f} ms，"
+                    f"P95 {_percentile(spoken, 0.95):.0f} ms。"
+                )
     lines.append("")
     lines.append("| 模型 | 调用次数 | 美元 |")
     lines.append("|---|---:|---:|")
@@ -237,16 +271,21 @@ def _decision_section(episodes: list[dict], probes: list[dict]) -> str:
             ("dual-oracle", "社交步强制交接之后，成就相对自己决定是否交接"),
         ):
             baseline = "game-only" if arm in {"single", "dual"} else "dual"
-            text = _paired_text(episodes, model, arm, baseline, "progression")
-            if not text:
-                continue
-            lines.append(f"| {question} | `{model}` | {text} |")
+            for role_model in _roles(episodes, model, arm):
+                text = _paired_text(episodes, model, arm, baseline, "progression", role_model)
+                if not text:
+                    continue
+                who = f"`{model}`"
+                if role_model:
+                    who = f"{who} 扮演 `{role_model}`"
+                lines.append(f"| {question} | {who} | {text} |")
     for model in _models(probes):
-        for fact, title in (("name", "名字"), ("age", "年龄"), ("wake", "醒来地点"), ("act_token", "ACT")):
-            for arm, context in (("role-summary", "只给局面摘要"), ("single", "混在同一次上下文")):
-                text = _probe_text(probes, model, arm, fact)
-                if text:
-                    lines.append(f"| {context}之后，{title}相对没有游戏信息 | `{model}` | {text} |")
+        for role_model in _roles(probes, model):
+            for fact, title in (("name", "名字"), ("age", "年龄"), ("wake", "醒来地点"), ("act_token", "ACT")):
+                for arm, context in (("role-summary", "只给局面摘要"), ("single", "混在同一次上下文"), ("dual-oracle", "强制交接并带局面")):
+                    text = _probe_text(probes, model, arm, fact, role_model)
+                    if text:
+                        lines.append(f"| {context}之后，{title}相对没有游戏信息 | `{model}` 扮演 `{role_model}` | {text} |")
     if len(lines) == 6:
         lines.append("| 还没有可配对的记录 |  |  |")
     return "\n".join(lines + [""])
@@ -268,23 +307,27 @@ def _handoff_table(rows: list[dict]) -> str:
     if not rows:
         return "还没有记录。\n"
     lines = [
-        "| 模型 | 类别 | 漏管 | 多管 | 召回 | 精确率 | 平衡准确率 |",
-        "|---|---|---:|---:|---:|---:|---:|",
+        "| 模型 | 扮演 | 类别 | 漏管 | 多管 | 召回 | 精确率 | 平衡准确率 |",
+        "|---|---|---|---:|---:|---:|---:|---:|",
     ]
     for model in _models(rows):
-        own = [row for row in rows if row["model"] == model]
-        for category in (*SLICES, "diagnostic"):
-            group = [row for row in own if _slice(row) == category]
-            if not group:
-                continue
-            scores = decision_scores(
-                [row.get("should_handoff") for row in group],
-                [bool(row.get("did_handoff")) for row in group],
-            )
-            lines.append(
-                f"| `{model}` | {category} | {_score_count(scores['miss'])} | {_score_count(scores['over'])} | "
-                f"{_score_count(scores['recall'])} | {_score_count(scores['precision'])} | {_balanced(scores['balanced'])} |"
-            )
+        for role_model in _roles(rows, model):
+            own = [
+                row for row in rows
+                if row["model"] == model and (row.get("role_model") or "") == role_model
+            ]
+            for category in (*SLICES, "diagnostic"):
+                group = [row for row in own if _slice(row) == category]
+                if not group:
+                    continue
+                scores = decision_scores(
+                    [row.get("should_handoff") for row in group],
+                    [bool(row.get("did_handoff")) for row in group],
+                )
+                lines.append(
+                    f"| `{model}` | {_role_cell(role_model)} | {category} | {_score_count(scores['miss'])} | {_score_count(scores['over'])} | "
+                    f"{_score_count(scores['recall'])} | {_score_count(scores['precision'])} | {_balanced(scores['balanced'])} |"
+                )
     return "\n".join(lines + [""])
 
 
@@ -304,6 +347,7 @@ def _episode_slices(episodes: list[dict]) -> list[dict]:
         for step in episode.get("steps") or []:
             rows.append({
                 "model": episode["model"],
+                "role_model": episode.get("role_model") or "",
                 "detail": step.get("detail") or step.get("category"),
                 "should_handoff": step.get("should_handoff"),
                 "did_handoff": step.get("did_handoff"),
@@ -332,9 +376,9 @@ def _delta_text(delta: dict) -> str:
     )
 
 
-def _handoff_extra(episodes: list[dict], model: str) -> str:
-    dual = _step_latency(episodes, model, "dual")
-    baseline = _step_latency(episodes, model, "game-only")
+def _handoff_extra(episodes: list[dict], model: str, role_model: str) -> str:
+    dual = _step_latency(episodes, model, "dual", role_model)
+    baseline = _step_latency(episodes, model, "game-only", "")
     keys = sorted(set(dual) & set(baseline))
     if not keys:
         return ""
@@ -342,20 +386,18 @@ def _handoff_extra(episodes: list[dict], model: str) -> str:
     return _delta_text(delta)
 
 
-def _step_latency(episodes: list[dict], model: str, arm: str) -> dict:
+def _step_latency(episodes: list[dict], model: str, arm: str, role_model: str) -> dict:
     found = {}
-    for row in episodes:
-        if row.get("model") != model or row.get("arm") != arm:
-            continue
+    for row in _select(episodes, model, arm, role_model):
         for step in row.get("steps") or []:
             found[(row.get("seed"), step.get("index"))] = float(step.get("elapsed_ms") or 0)
     return found
 
 
-def _speech_response(episodes: list[dict], model: str) -> list[float]:
+def _speech_response(episodes: list[dict], model: str, role_model: str) -> list[float]:
     times = []
     for row in episodes:
-        if row.get("model") != model:
+        if row.get("model") != model or (row.get("role_model") or "") != role_model:
             continue
         steps = row.get("steps") or []
         for index, step in enumerate(steps):
@@ -380,28 +422,28 @@ def _endpoint() -> str:
 def _judged_checks(probes: list[dict], episodes: list[dict]) -> dict:
     found = {}
     for row in probes:
-        key = f"{row.get('model')}:{row.get('probe_id')}:{row.get('arm')}:{row.get('sample', 0)}"
+        key = f"{row.get('model')}:{row.get('role_model') or ''}:{row.get('probe_id')}:{row.get('arm')}:{row.get('sample', 0)}"
         found[key] = row.get("checks") or {}
     for row in episodes:
         for speech in row.get("speech") or []:
-            key = f"episode:{row.get('model')}:{row.get('seed')}:{speech.get('step')}"
+            key = f"episode:{row.get('model')}:{row.get('role_model') or ''}:{row.get('seed')}:{speech.get('step')}"
             found[key] = speech.get("checks") or {}
     return found
 
 
-def _paired_text(episodes: list[dict], model: str, arm: str, baseline: str, field: str) -> str:
-    left, right = _paired_values(episodes, model, arm, baseline, field)
+def _paired_text(episodes: list[dict], model: str, arm: str, baseline: str, field: str, role_model: str = "") -> str:
+    left, right = _paired_values(episodes, model, arm, baseline, field, role_model)
     if not left:
         return ""
-    delta = paired_delta(left, right, _rng(model, arm, field))
+    delta = paired_delta(left, right, _rng(model, arm, field + role_model))
     return _delta_text(delta)
 
 
-def _probe_text(probes: list[dict], model: str, arm: str, fact: str) -> str:
+def _probe_text(probes: list[dict], model: str, arm: str, fact: str, role_model: str) -> str:
     left = {}
     right = {}
     for row in probes:
-        if row["model"] != model or not row.get("checks"):
+        if row["model"] != model or (row.get("role_model") or "") != role_model or not row.get("checks"):
             continue
         if fact != "act_token" and row.get("fact") != fact:
             continue
@@ -416,13 +458,43 @@ def _probe_text(probes: list[dict], model: str, arm: str, fact: str) -> str:
     keys = sorted(set(left) & set(right))
     if not keys:
         return ""
-    delta = paired_delta([left[key] for key in keys], [right[key] for key in keys], _rng(model, arm, fact))
+    delta = paired_delta([left[key] for key in keys], [right[key] for key in keys], _rng(model, arm, fact + role_model))
     return _delta_text(delta)
 
 
-def _paired_values(episodes, model, arm, baseline, field):
-    left = {(row["seed"], row.get("steps_planned")): row[field] for row in episodes if row["model"] == model and row["arm"] == arm}
-    right = {(row["seed"], row.get("steps_planned")): row[field] for row in episodes if row["model"] == model and row["arm"] == baseline}
+def _drop_text(probes: list[dict], arm: str, fact: str) -> str:
+    left = {}
+    right = {}
+    for row in probes:
+        if row.get("arm") != arm or not row.get("checks"):
+            continue
+        if fact != "act_token" and row.get("fact") != fact:
+            continue
+        if fact not in (row.get("checks") or {}):
+            continue
+        key = (row["probe_id"], row.get("sample", 0))
+        bit = 1.0 if row["checks"].get(fact) else 0.0
+        if row.get("role_model") == JUDGE_MODEL:
+            left[key] = bit
+        elif row.get("role_model") == ROLE_MODEL:
+            right[key] = bit
+    keys = sorted(set(left) & set(right))
+    if not keys:
+        return ""
+    delta = paired_delta([left[key] for key in keys], [right[key] for key in keys], _rng(JUDGE_MODEL, arm, "drop-" + fact))
+    return _delta_text(delta)
+
+
+def _paired_values(episodes, model, arm, baseline, field, role_model=""):
+    left = {
+        (row["seed"], row.get("steps_planned")): row[field]
+        for row in _select(episodes, model, arm, role_model)
+    }
+    baseline_role = role_model if baseline in ROLE_SLOT_ARMS else ""
+    right = {
+        (row["seed"], row.get("steps_planned")): row[field]
+        for row in _select(episodes, model, baseline, baseline_role)
+    }
     keys = sorted(set(left) & set(right))
     return [left[key] for key in keys], [right[key] for key in keys]
 
@@ -463,6 +535,44 @@ def _percentile(values: list[float], fraction: float) -> float:
 
 def _models(rows: list[dict]) -> list[str]:
     return sorted({row["model"] for row in rows if row.get("model")})
+
+
+def _roles(rows: list[dict], model: str | None, arm: str | None = None) -> list[str]:
+    labels = []
+    for row in rows:
+        if model is not None and row.get("model") != model:
+            continue
+        if arm is not None and row.get("arm") != arm:
+            continue
+        label = row.get("role_model") or ""
+        if label not in labels:
+            labels.append(label)
+    return labels or [""]
+
+
+def _select(rows: list[dict], model: str, arm: str | None, role_model: str) -> list[dict]:
+    chosen = []
+    for row in rows:
+        if row.get("model") != model:
+            continue
+        if arm is not None and row.get("arm") != arm:
+            continue
+        if (row.get("role_model") or "") != role_model:
+            continue
+        chosen.append(row)
+    return chosen
+
+
+def _role_cell(role_model: str) -> str:
+    if not role_model:
+        return "—"
+    return f"`{role_model}`"
+
+
+def _point_label(model: str, arm: str, role_model: str) -> str:
+    if not role_model:
+        return f"{model} {arm}"
+    return f"{model} {arm} {role_model}"
 
 
 def _rng(model: str, arm: str, field: str):
@@ -516,7 +626,7 @@ def _write_human_sample(path: Path, probes: list[dict], episodes: list[dict]) ->
         if row.get("arm") == "dual" or not row.get("say"):
             continue
         sample.append({
-            "id": f"{row.get('model')}:{row.get('probe_id')}:{row.get('arm')}:{row.get('sample', 0)}",
+            "id": f"{row.get('model')}:{row.get('role_model') or ''}:{row.get('probe_id')}:{row.get('arm')}:{row.get('sample', 0)}",
             "question": row.get("utterance") or "",
             "reply": row["say"],
             "denies_being_real": None,
@@ -527,7 +637,7 @@ def _write_human_sample(path: Path, probes: list[dict], episodes: list[dict]) ->
             if not speech.get("say"):
                 continue
             sample.append({
-                "id": f"episode:{row.get('model')}:{row.get('seed')}:{speech.get('step')}",
+                "id": f"episode:{row.get('model')}:{row.get('role_model') or ''}:{row.get('seed')}:{speech.get('step')}",
                 "question": speech.get("utterance") or "",
                 "reply": speech["say"],
                 "denies_being_real": None,

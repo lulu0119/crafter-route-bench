@@ -17,6 +17,14 @@ class JudgeTest(unittest.TestCase):
         self.assertTrue(checks["act_token"])
         self.assertTrue(checks["no_emoji"])
 
+    def test_an_unknown_emotion_is_not_accepted(self):
+        checks = objective_checks('<|ACT {"emotion":"delighted"}|> I am AIRI.', None)
+        self.assertFalse(checks["act_token"])
+
+    def test_a_high_intensity_is_still_accepted(self):
+        reply = '<|ACT {"emotion":{"name":"Surprised","intensity":2}}|> Hi.'
+        self.assertTrue(objective_checks(reply, None)["act_token"])
+
     def test_another_number_fails_the_age_check(self):
         checks = objective_checks('<|ACT {"emotion":"happy"}|> I am 15, or maybe 16.', "age")
         self.assertFalse(checks["age"])
@@ -97,6 +105,13 @@ class UsageShapeTest(unittest.TestCase):
         self.assertNotIn("reasoning_effort", chat_payload(
             "deepseek-v4.1-flash", [{"role": "user", "content": "Go."}], 0.0, 32, None, None, None, False,
         ))
+
+    def test_a_quiet_role_call_turns_reasoning_off(self):
+        payload = chat_payload(
+            "google/gemma-4-e2b", [{"role": "user", "content": "Go."}], 0.0, 32, None, None, None, False, True,
+        )
+        self.assertEqual(payload["reasoning_effort"], "none")
+        self.assertNotIn("thinking", payload)
 
 
 class StatsTest(unittest.TestCase):

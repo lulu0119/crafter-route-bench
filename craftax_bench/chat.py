@@ -69,6 +69,7 @@ def chat_payload(
     tools: list[dict] | None,
     tool_choice: str | None,
     thinking: bool,
+    quiet: bool = False,
 ) -> dict:
     # Go rejects a named tool_choice and only accepts "auto". The call is required in the text instead.
     prepared = _require_tool(messages, tool_choice) if tool_choice else messages
@@ -77,10 +78,14 @@ def chat_payload(
         "messages": prepared,
         "max_tokens": max_tokens,
         "temperature": temperature,
-        "thinking": {"type": "enabled" if thinking else "disabled"},
     }
     if thinking:
+        payload["thinking"] = {"type": "enabled"}
         payload["reasoning_effort"] = "high"
+    elif quiet:
+        payload["reasoning_effort"] = "none"
+    else:
+        payload["thinking"] = {"type": "disabled"}
     if seed is not None:
         payload["seed"] = seed
     if tools:
@@ -129,14 +134,18 @@ class Chat:
         self,
         env: dict[str, str] | None = None,
         model: str | None = None,
+        url: str | None = None,
+        key: str | None = None,
+        quiet: bool = False,
         temperature: float = TEMPERATURE,
         seed: int | None = None,
         log_path: Path | None = None,
     ):
-        loaded = env or load_env()
+        loaded = env or ({} if url else load_env())
         self.model = model or loaded["MODEL"]
-        self.url = loaded["CHAT_COMPLETIONS_MODEL_URL"]
-        self.key = loaded["OPENCODE_API_KEY"]
+        self.url = url or loaded["CHAT_COMPLETIONS_MODEL_URL"]
+        self.key = loaded["OPENCODE_API_KEY"] if key is None and url is None else (key or "")
+        self.quiet = quiet
         self.temperature = temperature
         self.seed = seed
         self.log_path = log_path if log_path is not None else ROOT / "reports" / "calls.jsonl"
@@ -161,6 +170,7 @@ class Chat:
             tools,
             tool_choice,
             thinking,
+            self.quiet,
         )
         started = time.perf_counter()
         data = self._post(payload)
@@ -201,12 +211,7 @@ class Chat:
             request = urllib.request.Request(
                 self.url,
                 data=json.dumps(body_payload).encode(),
-                headers={
-                    "Authorization": f"Bearer {self.key}",
-                    "Content-Type": "application/json",
-                    "User-Agent": USER_AGENT,
-                    "x-opencode-session": SESSION,
-                },
+                headers=_headers(self.key),
             )
             try:
                 with urllib.request.urlopen(request, timeout=120) as response:
@@ -227,6 +232,17 @@ class Chat:
         if last_error is not None:
             raise last_error
         raise RuntimeError("chat failed without an error")
+
+
+def _headers(key: str) -> dict:
+    headers = {
+        "Content-Type": "application/json",
+        "User-Agent": USER_AGENT,
+    }
+    if key:
+        headers["Authorization"] = f"Bearer {key}"
+        headers["x-opencode-session"] = SESSION
+    return headers
 
 
 def _function_call(item: dict) -> ToolCall:

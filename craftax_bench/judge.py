@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import re
 
-from craftax_bench.airi_prompt import has_act_token
+from craftax_bench.airi_prompt import EMOTIONS, has_act_token
 from craftax_bench.protocol import JUDGE_MODEL
 
 _ACT_JSON = re.compile(r"<\|ACT\s*(\{.*?\})\s*\|>", re.DOTALL)
@@ -37,7 +37,7 @@ def objective_checks(reply: str, fact: str | None) -> dict:
         "name": bool(re.search(r"\bairi\b", lowered)),
         "age": age_ok,
         "wake": _woke_in_pod(lowered),
-        "act_token": has_act_token(reply) and _act_json_valid(reply),
+        "act_token": _stage_accepts_act(reply),
         "short": len(_WORD.findall(spoken)) <= SHORT_WORDS,
         "no_emoji": _EMOJI.search(reply) is None,
         "fact_applies": fact,
@@ -91,15 +91,33 @@ def _woke_in_pod(lowered: str) -> bool:
     return re.search(r"\blab\b", lowered) is not None
 
 
-def _act_json_valid(reply: str) -> bool:
-    match = _ACT_JSON.search(reply)
-    if not match:
+_EMOTION_NAMES = frozenset(name for name, _feeling in EMOTIONS)
+
+
+def _stage_accepts_act(reply: str) -> bool:
+    """True when a token parses and names an emotion the stage can play."""
+    if not has_act_token(reply):
         return False
+    return any(_emotion_name(match.group(1)) for match in _ACT_JSON.finditer(reply))
+
+
+def _emotion_name(raw: str) -> str | None:
     try:
-        json.loads(match.group(1))
+        payload = json.loads(raw)
     except json.JSONDecodeError:
-        return False
-    return True
+        return None
+    if not isinstance(payload, dict):
+        return None
+    emotion = payload.get("emotion")
+    if isinstance(emotion, str):
+        name = emotion.strip().lower()
+    elif isinstance(emotion, dict) and isinstance(emotion.get("name"), str):
+        name = emotion["name"].strip().lower()
+    else:
+        return None
+    if name not in _EMOTION_NAMES:
+        return None
+    return name
 
 
 def _bool_or_none(value) -> bool | None:

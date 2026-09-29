@@ -7,7 +7,7 @@ import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-from craftax_bench.arms import PLAYING_ARMS, PROBE_ARMS, SOCIAL, act
+from craftax_bench.arms import PLAYING_ARMS, PROBE_ARMS, ROLE_SLOT_ARMS, SOCIAL, act
 from craftax_bench.chat import Chat, append_jsonl
 from craftax_bench.judge import objective_checks, score_reply
 from craftax_bench.players import (
@@ -26,6 +26,9 @@ from craftax_bench.protocol import (
     PLAY_STEPS,
     PROBE_SAMPLES,
     PROTOCOL,
+    ROLE_MODEL,
+    ROLE_MODELS,
+    ROLE_URL,
     TEMPERATURE,
 )
 from craftax_bench.report import write_outputs
@@ -76,37 +79,40 @@ def run_probes(models: tuple[str, ...], seeds: int, samples: int, limit: int, wo
     if limit:
         tasks = tasks[:limit]
     path = folder / "probes.jsonl"
-    done = _done(path, lambda row: (row["model"], row["arm"], row["probe_id"], row["sample"]))
+    done = _done(path, lambda row: (row["model"], row["arm"], row.get("role_model") or "", row["probe_id"], row["sample"]))
     jobs = []
     for model in models:
         for sample in range(samples):
             for probe in tasks:
                 for arm in _probe_arms(probe):
-                    key = (model, arm, probe["id"], sample)
-                    if key in done:
-                        continue
-                    jobs.append((model, arm, probe, sample, folder))
+                    for role_model in _role_models(arm):
+                        key = (model, arm, role_model, probe["id"], sample)
+                        if key in done:
+                            continue
+                        jobs.append((model, arm, role_model, probe, sample, folder))
     print(f"probes {len(jobs)} pending, {len(tasks)} tasks", flush=True)
     _parallel(jobs, workers, _run_probe, path)
 
 
 def run_episodes(models: tuple[str, ...], seeds: int, steps: int, arms: tuple[str, ...], workers: int, folder: Path) -> None:
     path = folder / "episodes.jsonl"
-    done = _done(path, lambda row: (row["model"], row["arm"], row["seed"], row["steps_planned"]))
+    done = _done(path, lambda row: (row["model"], row["arm"], row.get("role_model") or "", row["seed"], row["steps_planned"]))
     jobs = []
     for model in models:
         for seed in range(seeds):
             for arm in arms:
-                key = (model, arm, seed, steps)
-                if key not in done:
-                    jobs.append((model, arm, seed, steps, folder))
+                for role_model in _role_models(arm):
+                    key = (model, arm, role_model, seed, steps)
+                    if key not in done:
+                        jobs.append((model, arm, role_model, seed, steps, folder))
     print(f"episodes {len(jobs)} pending", flush=True)
     _parallel(jobs, workers, _run_episode, path)
 
 
 def _run_probe(job: tuple) -> dict:
-    model, arm, probe, sample, folder = job
+    model, arm, role_model, probe, sample, folder = job
     chat = Chat(model=model, temperature=TEMPERATURE, seed=sample, log_path=folder / "calls.jsonl")
+    role_chat = _speaker(role_model, sample, folder)
     judge = _judge(folder)
     utterance = probe.get("utterance")
     try:
@@ -117,6 +123,7 @@ def _run_probe(job: tuple) -> dict:
             probe["observation"],
             utterance,
             probe["category"] in SOCIAL,
+            role_chat,
         )
     except Exception as error:
         outcome = _failed(error)
@@ -129,6 +136,7 @@ def _run_probe(job: tuple) -> dict:
         "kind": "probe",
         "model": model,
         "arm": arm,
+        "role_model": role_model,
         "sample": sample,
         "probe_id": probe["id"],
         "category": probe["category"],
@@ -154,8 +162,9 @@ def _run_probe(job: tuple) -> dict:
 
 
 def _run_episode(job: tuple) -> dict:
-    model, arm, seed, steps, folder = job
+    model, arm, role_model, seed, steps, folder = job
     chat = Chat(model=model, temperature=TEMPERATURE, seed=seed, log_path=folder / "calls.jsonl")
+    role_chat = _speaker(role_model, seed, folder)
     judge = _judge(folder)
     wrapper, observation = make_env(seed, length=max(400, steps + 5))
     schedule = build_schedule(seed, steps)
@@ -173,7 +182,15 @@ def _run_episode(job: tuple) -> dict:
         text = annotate(observation_text(observation), event)
         label = step_label(event, onset, hit)
         try:
-            outcome = act(arm, chat, history, text, label.get("utterance"), label["category"] in SOCIAL)
+            outcome = act(
+                arm,
+                chat,
+                history,
+                text,
+                label.get("utterance"),
+                label["category"] in SOCIAL,
+                role_chat,
+            )
         except Exception as error:
             outcome = _failed(error)
         executed = outcome["action"] or "Noop"
@@ -218,6 +235,8 @@ def _run_episode(job: tuple) -> dict:
             "observation": text,
             "action": executed,
             "say": outcome["say"] if arm != "game-only" else "",
+            "utterance": label.get("utterance"),
+            "command": outcome.get("command") or "",
         })
         observation, _reward, done, _info = wrapper.step(executed)
         previous_kinds = kinds
@@ -243,6 +262,7 @@ def _run_episode(job: tuple) -> dict:
         "kind": "episode",
         "model": model,
         "arm": arm,
+        "role_model": role_model,
         "seed": seed,
         "steps_planned": steps,
         "steps_played": len(records),
@@ -261,6 +281,30 @@ def _run_episode(job: tuple) -> dict:
 
 def _probe_arms(_probe: dict) -> tuple[str, ...]:
     return PROBE_ARMS
+
+
+def _role_models(arm: str) -> tuple[str, ...]:
+    if arm in ROLE_SLOT_ARMS:
+        return ROLE_MODELS
+    if arm == "single":
+        return (JUDGE_MODEL,)
+    return ("",)
+
+
+def _speaker(role_model: str, seed: int, folder: Path) -> Chat | None:
+    if not role_model:
+        return None
+    if role_model == ROLE_MODEL:
+        return Chat(
+            model=ROLE_MODEL,
+            url=ROLE_URL,
+            key="",
+            quiet=True,
+            temperature=TEMPERATURE,
+            seed=seed,
+            log_path=folder / "calls.jsonl",
+        )
+    return Chat(model=role_model, temperature=TEMPERATURE, seed=seed, log_path=folder / "calls.jsonl")
 
 
 def _judge(folder: Path) -> Chat:
@@ -283,6 +327,7 @@ def _failed(error: Exception) -> dict:
         "say": "",
         "did_handoff": False,
         "summary": "",
+        "command": "",
         "elapsed_ms": 0.0,
         "usage": {"prompt_tokens": 0, "completion_tokens": 0, "cached_tokens": 0, "reasoning_tokens": 0},
         "call_count": 0,
@@ -319,9 +364,10 @@ def _parallel(jobs: list, workers: int, function, path) -> None:
 
 
 def _progress(record: dict) -> str:
+    role = record.get("role_model") or "-"
     if record["kind"] == "probe":
-        return f"probe {record['model']} {record['arm']} {record['probe_id']} sample {record['sample']}"
-    return f"episode {record['model']} {record['arm']} seed {record['seed']}"
+        return f"probe {record['model']} {record['arm']} role {role} {record['probe_id']} sample {record['sample']}"
+    return f"episode {record['model']} {record['arm']} role {role} seed {record['seed']}"
 
 
 def _done(path, key) -> set:
